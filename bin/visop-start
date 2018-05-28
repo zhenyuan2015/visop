@@ -3,6 +3,7 @@
 const download = require('download-git-repo')
 const program = require('commander')
 const exists = require('fs').existsSync
+const fse = require('fs-extra')
 const path = require('path')
 const ora = require('ora')
 const home = require('user-home')
@@ -18,6 +19,9 @@ const localPath = require('../lib/local-path')
 const shell = require('shelljs')
 const isLocalPath = localPath.isLocalPath
 const getTemplatePath = localPath.getTemplatePath
+var kill = require('tree-kill'); //https://github.com/pkrumins/node-tree-kill
+// const detect = require('detect-port');
+const find = require('find-process'); // https://www.npmjs.com/package/find-process
 
 var watcher = (label, cmd, withSuccess = true) => {
   if (label.length > 0) {
@@ -79,19 +83,20 @@ program.on('--help', () => {
  * Settings.
  */
 
-// let codePath = program.args[0]
+// let testCodePath = process.cwd()
 // const hasSlash = codePath.indexOf('/') > -1
-// const rawName = program.args[0]
-// const inPlace = !rawName || rawName === '.'
-// const name = inPlace ? path.relative('../', process.cwd()) : rawName
-// const to = path.resolve(rawName || '.')
-// const clone = program.clone || false
+var template = "visop-defaultconfig"
+const rawName = ""
+const inPlace = !rawName || rawName === '.'
+const name = "visop"
 
-// const tmp = path.join(home, '.vue-templates', template.replace(/[\/:]/g, '-'))
-// if (program.offline) {
-//   console.log(`> Use cached template at ${chalk.yellow(tildify(tmp))}`)
-//   template = tmp
-// }
+const clone = program.clone || false
+
+const tmp = path.join(home, '.visop-templates', template.replace(/[\/:]/g, '-'))
+if (program.offline) {
+  console.log(`> Use cached template at ${chalk.yellow(tildify(tmp))}`)
+  template = tmp
+}
 
 var codePath = '.'
 // console.log(',,,', program)
@@ -100,6 +105,9 @@ if (program.path) {
 }
 console.log('...,', path.posix.resolve(codePath))
 codePath = path.posix.resolve(codePath)
+const hasSlash = codePath.indexOf('/') > -1
+
+const to = codePath
 // process.exit(0)
 /**
  * Padding.
@@ -110,7 +118,47 @@ process.on('exit', () => {
   console.log("server stop")
 })
 process.env.CODE_PATH = codePath;
-runserver()
+// const kill = require('kill-port')
+// kill(8050).then(res =>{
+//   console.log("killed 8050");
+  
+// }).catch(res => {
+//   console.log('error when kill port process,',res)
+// })
+
+var port = 8050;
+find('port', port)
+.then(function (list) {
+  if (!list.length) {
+    console.log(`port ${port} is free now`);
+    runserver()
+  } else {
+    console.log(`%s is listening port ${port} , will kill it`, list[0].name);
+    kill(list[0].pid, 'SIGKILL', function(err) {
+      // Do things
+      if(err){
+        console.log('kill port process error,', err)
+      }
+      console.log('success kill port process ,')
+      runserver()
+  });
+  }
+  
+})
+// detect(port, (err, _port) => {
+//   if (err) {
+//     console.log(err);
+//   }
+
+//   if (port == _port) {
+//     console.log(`port: ${port} was not occupied`);
+
+//   } else {
+//     console.log(`port: ${port} was occupied, try port: ${_port}`);
+//   }
+
+// });
+
 
 // if (inPlace || exists(to)) {
 //   inquirer.prompt([{
@@ -134,13 +182,44 @@ runserver()
 
 
 function runserver(){
+  
+  // process.exit()
   var serverdir = path.join(__dirname, '..','src','server')
   // console.log()
-  shell.cd(path.join(codePath,'visop'));
-  watcher(`📦  Starting server  in ${serverdir}...`, 'npm install');
-  shell.cd(serverdir);
-  watcher(`📦  Starting server  in ${serverdir}, this may take several minutes,you can visit localhost:8050 later...`, 'npm install && npm start');
+  if(!exists(path.join(codePath, 'visop'))){
+    // var temp = fse.ensureDirSync()
+    const spinner = ora('downloading template')
+    console.log('visop config folder not exists ,auto download and generate visop folder in code root path')
+    spinner.start()
+    let tmp = path.join(home, '.visop-templates', "visop-defaultconfig")
+    var destDir = path.join(codePath,'visop')
+    fse.ensureDirSync(tmp)
+    download("zhenyuan2015/visop-defaultconfig", tmp, { clone }, err => {
+      spinner.stop()
+      if (err) logger.fatal('Failed to download repo ' + template + ': ' + err.message.trim())
+      logger.success('Generated visop folder success "%s".', tmp)
+      fse.ensureDirSync(tmp)
+      fse.copySync(tmp, destDir)
+      console.log()
+      shell.cd(path.join(codePath,'visop'));
+      watcher(`📦  Starting server  in ${serverdir}...`, 'npm install');
+      shell.cd(serverdir);
+      watcher(`📦  Starting server  in ${serverdir}, this may take several minutes,you can visit localhost:8050 later...`, 'npm install && npm start');
+      // generate(name, tmp, to, err => {
+      //   if (err) logger.fatal(err)
+      //   console.log()
+      //   logger.success('Generated "%s".', name)
+      // })
+    })
+  }else{
+    shell.cd(path.join(codePath,'visop'));
+    watcher(`📦  Starting server  in ${serverdir}...`, 'npm install');
+    shell.cd(serverdir);
+    watcher(`📦  Starting server  in ${serverdir}, this may take several minutes,you can visit localhost:8050 later...`, 'npm install && npm start');
+  }
+
 }
+
 
 function run () {
   // check if template is local
@@ -159,7 +238,7 @@ function run () {
     checkVersion(() => {
       if (!hasSlash) {
         // use official templates
-        const officialTemplate = 'vuejs-templates/' + template
+        const officialTemplate = 'zhenyuan2015/' + template
         if (template.indexOf('#') !== -1) {
           downloadAndGenerate(officialTemplate)
         } else {

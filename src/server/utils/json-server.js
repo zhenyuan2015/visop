@@ -25,7 +25,7 @@ module.exports = function(router, visopHooks){
     var tempfile, fullpath;
     allFiles.forEach(function(file){
         fullpath = path.join(visopPath, file)
-        if(file.endsWith(".json") && file != "package.json"){
+        if(file.endsWith(".json") && file != "package.json" && file != "package-lock.json"){
             try {
                 console.log('add router for ',file.replace('.json', ''),' ',  fullpath)
                 // console.log(jsonServer.router(path.join(codePath, file)))
@@ -38,7 +38,10 @@ module.exports = function(router, visopHooks){
         if(file.endsWith(".js")){
             try{
                 tempfile = file.replace('.js', '') 
-                visopHooks[tempfile] = require(fullpath);
+                if(allFiles.indexOf(tempfile+'.json')>-1){
+                    visopHooks[tempfile] = require(fullpath);
+                }
+                
             }
             catch(e){
                 console.log(`add hooks for ${fullpath} failed: ${e}`)

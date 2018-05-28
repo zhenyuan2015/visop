@@ -6,3 +6,5 @@ dist/
 src/server/node_modules
 src/server/logs
 src/front/node_modules
+visop/node_modules
+visop/.git
