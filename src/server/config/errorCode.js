@@ -1,0 +1,58 @@
+exports.errCodeMap = {
+    SUCCESS: { code: 0, content: "成功" },
+    ERROR: { code: 1, content: "错误" },
+    PARAM_ERROR: { code: 2, content: "参数校验错误" },
+    PARAM_IS_LOSE: { code: 100, content: "参数不完整" },
+    NOT_FOUND: { code: 101, content: "未找到对象" },
+    DB_ACCESS_ERROR: { code: 107, content: "数据库访问错误" },
+    WRONG_LOGIN: { code: 102, content: "用户认证失败" },
+    NO_VERI_CODE: { code: 103, content: "未找到验证码" },
+    PWD_VERI_LOST: { code: 104, content: "需要密码或者手机验证码" },
+    MODIFY_FAILED: { code: 105, content: "手机号或者密码输入错误" },
+    TEL_EXIST: { code: 106, content: "手机号已存在" },
+    //用户管理错误码
+    // EMAIL_IN_USE:'The specified email address is already in use.',
+    //权限管理错误码
+    DUPLICATE_KEY: { code: 11000, content: '对象重复' },
+    MODIFY_ADMIN: { code: 108, content: '不能修改或删除超级管理员' },
+    INVALIDE_VERYFI_CODE: { code: 109, content: '验证码校验失败' },
+    NOT_LOGIN: { code: 110, content: '没有登陆' },
+    BOTH_TEL_PWD: { code: 111, content: '不能同时修改手机号和密码' },
+    DUP_SHOPID: { code: 112, content: 'shopId重复' },
+    DEVICE_ERROR: { code: 113, content: '经络仪id不存在或存在异常' },
+    STATUS: { code: 114, content: '您的账号已被锁定，请联系对应商户' },
+    
+    // INVALIDE_AUTH_INFO: {code: 110, content:'用户认证失败'},
+    //login
+    WORK_IS_NULL:{code:115,content:'公司名称不存在'},
+    CODE_ERROR:{code:116,content:'验证码有误'},
+    CODE_OVERTIME:{code:117,content:'验证码失效'},
+    CODE_OVERTIME1:{code:130,content:'验证码无效'},
+    CODE_OVERTIME2:{code:131,content:'今日获取验证码次数超额'},
+    PASSWORDS_identical:{code:118,content:'两次密码不一致'},
+    USER_NOT_EXISTS:{code:127,content:'用户不存在'},
+    USER_PWD_WRONG:{code:128,content:'用户密码不正确'},
+    USER_TOOMANY_FAIL:{code:129,content:'用户登陆失败次数太多，已锁定账户'},
+    //医师
+    AUTHENTICATION_FAILED:{code:119,content:'您还未通过实名认证或执业助理医师资格认证'},
+    REFUSE_THIRTY:{code:120,content:'被拒绝30天内不可以重复申请'},
+    CONSENT_APPLY:{code:121,content:'同意可以申请'},
+    REGISTERED:{code:122,content:'此用户您已注册过'},
+    //商家
+    APPLIED:{code:123,content:'您已经邀请过(用户正在处理或者已经申请成功)'},
+    APPLIED1:{code:124,content:'此用户已经向您提交了申请,请您核实或者选择通过'},
+    APPLIED2:{code:125,content:'此商家已经向您提交了邀请,请您核实或者选择通过'},
+    APPLIED3:{code:126,content:'您已经申请过(商家正在处理或者已经申请成功)'},
+    //微信
+    WECHAT:{code:40029,content:'无效的code'},
+    WECHAT_USER_NOT_EXISTS:{code:40000,content:'此微信绑定的用户被删除或用户不存在'},
+    WECHAT_STATUS:{code:40001,content:'此微信用户不存在，请确认信息。'},
+    WECHAT_STATUS_USER:{code:40002,content:'此微信已绑定用户,请重试。'},
+    WECHAT_STATUS_USER1:{code:40003,content:'此手机号已绑定微信。'},
+    WECHAT_SESSION_KEY:{code:40004,content:'SESSION_KEY失效'},
+    WECHAT1:{code:40005,content:'没有获取到unionid'},
+    // 预约错误码
+    ADVANCE_RICH_NUMBER:{code:30001,content:'预约号无剩余'},
+    ADVANCE_NOT:{code:30002,content:'未设置预约号'},
+    ADVANCE_TIMEOUT:{code:30003,content:'可预约时间已过'},
+};

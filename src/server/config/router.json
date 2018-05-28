@@ -1,0 +1,16 @@
+{
+    "getAllConfigs": {
+        "route": "getAllConfigs",
+        "method": "GET,POST",
+        "description": "增加路由",
+        "authority": "100000",
+        "controller": "api/getAllConfigs",
+        "action": "do",
+        "parameters": {
+            "config": {
+                "notEmpty": true,
+                "errorMessage": "config不能为空"
+            }
+        }
+    }
+}
