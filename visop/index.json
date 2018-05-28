@@ -1,0 +1,332 @@
+{
+  "meta": [
+    {
+      "key": "name",
+      "value": "路由管理",
+      "description": "在页面显示的名称"
+    },
+    {
+      "key": "order",
+      "value": 1,
+      "description": "控制在页面显示的顺序"
+    },
+    {
+      "key": "usage",
+      "value": "服务路由管理",
+      "description": "描述这个配置文件的作用"
+    },
+    {
+      "key": "key",
+      "value": "id",
+      "description": "描述data数据部分的主键字段名称"
+    },
+    {
+      "key": "fields",
+      "value": [
+        {
+          "name": "id",
+          "description": "路由名称",
+          "type": "input"
+        },
+        {
+          "name": "method",
+          "description": "请求方法",
+          "type": "select",
+          "option": [
+            "GET",
+            "POST"
+          ]
+        },
+        {
+          "name": "authority",
+          "description": "权限码",
+          "type": "input"
+        },
+        {
+          "name": "parameters",
+          "description": "参数校验",
+          "type": "textarea",
+          "row": 5
+        }
+      ],
+      "description": "描述data数据部分的字段描述"
+    }
+  ],
+  "data": [
+    {
+      "id": "generateRoute",
+      "method": "POST",
+      "description": "生成路由",
+      "authority": "100000",
+      "controller": "api/generateRoute",
+      "action": "do",
+      "parameters": "{\"config\":{\"notEmpty\":true,\"errorMessage\":\"config不能为空\"}}"
+    },
+    {
+      "id": "getAllRoutes",
+      "method": "GET,POST",
+      "description": "获取所有路由的配置",
+      "authority": "100000",
+      "controller": "api/getAllRoutes",
+      "action": "do",
+      "parameters": "{\"config\":{\"notEmpty\":true,\"errorMessage\":\"config不能为空\"}}"
+    },
+    {
+      "id": "deleteRoute",
+      "method": "GET,POST",
+      "description": "增加路由",
+      "authority": "100000",
+      "controller": "api/deleteRoute",
+      "action": "do",
+      "parameters": "{\"config\":{\"notEmpty\":true,\"errorMessage\":\"config不能为空\"}}"
+    },
+    {
+      "id": "generateRoute1",
+      "method": "GET,POST",
+      "description": "生成路由",
+      "authority": "100000",
+      "controller": "api/generateRoute",
+      "action": "do",
+      "parameters": "{\"config\":{\"notEmpty\":true,\"errorMessage\":\"config不能为空\"}}"
+    },
+    {
+      "id": "generateRoute2",
+      "method": "GET",
+      "description": "生成路由122121212345",
+      "authority": "100000",
+      "controller": "api/generateRoute",
+      "action": "do",
+      "parameters": "{\"config\":{\"notEmpty\":true,\"errorMessage\":\"config不能为空\"}}"
+    },
+    {
+      "id": "createRouter1",
+      "method": "POST",
+      "authority": "1000002",
+      "parameters": "post"
+    },
+    {
+      "id": "generateRoute6",
+      "method": "GET,POST",
+      "description": "22222222222222222222",
+      "authority": "100000",
+      "controller": "api/generateRoute",
+      "action": "do",
+      "parameters": {
+        "config": {
+          "notEmpty": true,
+          "errorMessage": "config不能为空"
+        }
+      }
+    },
+    {
+      "id": "generateRoute7",
+      "method": "GET,POST",
+      "description": "22222222222222222222",
+      "authority": "100000",
+      "controller": "api/generateRoute",
+      "action": "do",
+      "parameters": {
+        "config": {
+          "notEmpty": true,
+          "errorMessage": "config不能为空"
+        }
+      }
+    },
+    {
+      "id": "generateRoute8",
+      "method": "GET,POST",
+      "description": "22222222222222222222",
+      "authority": "100000",
+      "controller": "api/generateRoute",
+      "action": "do",
+      "parameters": {
+        "config": {
+          "notEmpty": true,
+          "errorMessage": "config不能为空"
+        }
+      }
+    },
+    {
+      "id": "generateRou2",
+      "method": "GET,POST",
+      "description": "22222222222222222222",
+      "authority": "100000",
+      "controller": "api/generateRoute",
+      "action": "do",
+      "parameters": {
+        "config": {
+          "notEmpty": true,
+          "errorMessage": "config不能为空"
+        }
+      }
+    },
+    {
+      "id": "42323",
+      "method": "GET,POST",
+      "description": "22222222222222222222",
+      "authority": "100000",
+      "controller": "api/generateRoute",
+      "action": "do",
+      "parameters": {
+        "config": {
+          "notEmpty": true,
+          "errorMessage": "config不能为空"
+        }
+      }
+    },
+    {
+      "id": "456232",
+      "method": "GET,POST",
+      "description": "22222222222222222222",
+      "authority": "100000",
+      "controller": "api/generateRoute",
+      "action": "do",
+      "parameters": {
+        "config": {
+          "notEmpty": true,
+          "errorMessage": "config不能为空"
+        }
+      }
+    },
+    {
+      "id": "567890",
+      "method": "GET,POST",
+      "description": "22222222222222222222",
+      "authority": "100000",
+      "controller": "api/generateRoute",
+      "action": "do",
+      "parameters": {
+        "config": {
+          "notEmpty": true,
+          "errorMessage": "config不能为空"
+        }
+      }
+    },
+    {
+      "id": "12333333333333333",
+      "method": "GET,POST",
+      "description": "22222222222222222222",
+      "authority": "100000",
+      "controller": "api/generateRoute",
+      "action": "do",
+      "parameters": {
+        "config": {
+          "notEmpty": true,
+          "errorMessage": "config不能为空"
+        }
+      }
+    },
+    {
+      "id": "8765432",
+      "method": "GET,POST",
+      "description": "22222222222222222222",
+      "authority": "100000",
+      "controller": "api/generateRoute",
+      "action": "do",
+      "parameters": {
+        "config": {
+          "notEmpty": true,
+          "errorMessage": "config不能为空"
+        }
+      }
+    },
+    {
+      "id": "33333333333333333333333",
+      "method": "GET,POST",
+      "description": "22222222222222222222",
+      "authority": "100000",
+      "controller": "api/generateRoute",
+      "action": "do",
+      "parameters": {
+        "config": {
+          "notEmpty": true,
+          "errorMessage": "config不能为空"
+        }
+      }
+    },
+    {
+      "id": "66666666",
+      "method": "GET,POST",
+      "description": "22222222222222222222",
+      "authority": "100000",
+      "controller": "api/generateRoute",
+      "action": "do",
+      "parameters": {
+        "config": {
+          "notEmpty": true,
+          "errorMessage": "config不能为空"
+        }
+      }
+    },
+    {
+      "id": "1111",
+      "method": "GET,POST",
+      "description": "22222222222222222222",
+      "authority": "100000",
+      "controller": "api/generateRoute",
+      "action": "do",
+      "parameters": {
+        "config": {
+          "notEmpty": true,
+          "errorMessage": "config不能为空"
+        }
+      }
+    },
+    {
+      "id": "1312121212",
+      "method": "GET,POST",
+      "description": "22222222222222222222",
+      "authority": "100000",
+      "controller": "api/generateRoute",
+      "action": "do",
+      "parameters": {
+        "config": {
+          "notEmpty": true,
+          "errorMessage": "config不能为空"
+        }
+      }
+    },
+    {
+      "id": "6666666666666666",
+      "method": "GET,POST",
+      "description": "22222222222222222222",
+      "authority": "100000",
+      "controller": "api/generateRoute",
+      "action": "do",
+      "parameters": {
+        "config": {
+          "notEmpty": true,
+          "errorMessage": "config不能为空"
+        }
+      }
+    },
+    {
+      "id": "uuuuuuuuuuuuuu",
+      "method": "GET,POST",
+      "description": "22222222222222222222",
+      "authority": "100000",
+      "controller": "api/generateRoute",
+      "action": "do",
+      "parameters": {
+        "config": {
+          "notEmpty": true,
+          "errorMessage": "config不能为空"
+        }
+      }
+    },
+    {
+      "id": "eeeeeeeee",
+      "method": "GET,POST",
+      "description": "22222222222222222222",
+      "authority": "100000",
+      "controller": "api/generateRoute",
+      "action": "do",
+      "parameters": {
+        "config": {
+          "notEmpty": true,
+          "errorMessage": "config不能为空"
+        }
+      }
+    }
+  ]
+}
