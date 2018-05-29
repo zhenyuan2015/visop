@@ -52,12 +52,6 @@
       "description": "描述data数据部分的字段描述"
     }
   ],
-  "fields":{
-
-  },
-  "templates":{
-    
-  },
   "data": [
     {
       "id": "generateRoute",

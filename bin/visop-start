@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const download = require('download-git-repo')
-const program = require('commander')
+const program = require('commander') // https://github.com/tj/commander.js
 const exists = require('fs').existsSync
 const fse = require('fs-extra')
 const path = require('path')
@@ -22,6 +22,8 @@ const getTemplatePath = localPath.getTemplatePath
 var kill = require('tree-kill'); //https://github.com/pkrumins/node-tree-kill
 // const detect = require('detect-port');
 const find = require('find-process'); // https://www.npmjs.com/package/find-process
+// var portfinder = require('portfinder')
+const getPort = require('get-port');  // https://www.npmjs.com/package/get-port
 
 var watcher = (label, cmd, withSuccess = true) => {
   if (label.length > 0) {
@@ -51,6 +53,8 @@ var watcher = (label, cmd, withSuccess = true) => {
 program
   .usage('start')
   .option('-p, --path [value]', 'define the code path')
+  .option('-P, --PORT [n]', 'define the running port', parseInt)
+  .option('-f, --force', 'define whether kill the process when port is not free')
   .parse(process.argv)
   // .option('--offline', 'use cached template')
 
@@ -103,7 +107,18 @@ var codePath = '.'
 if (program.path) {
   codePath = program.path
 }
-console.log('...,', path.posix.resolve(codePath))
+var port = 8050
+var forcePort = false
+if(program.PORT){
+  port = program.PORT || 8050
+  process.env.PORT = port;
+
+}
+if(program.force){
+  forcePort = true;
+}
+console.log('code path:', path.posix.resolve(codePath))
+console.log('listen on port:', port)
 codePath = path.posix.resolve(codePath)
 const hasSlash = codePath.indexOf('/') > -1
 
@@ -126,22 +141,40 @@ process.env.CODE_PATH = codePath;
 //   console.log('error when kill port process,',res)
 // })
 
-var port = 8050;
 find('port', port)
 .then(function (list) {
   if (!list.length) {
     console.log(`port ${port} is free now`);
     runserver()
   } else {
-    console.log(`%s is listening port ${port} , will kill it`, list[0].name);
-    kill(list[0].pid, 'SIGKILL', function(err) {
-      // Do things
-      if(err){
-        console.log('kill port process error,', err)
-      }
-      console.log('success kill port process ,')
-      runserver()
-  });
+    if(forcePort){
+      console.log(`%s is listening port ${port} , will kill it`, list[0].name);
+      kill(list[0].pid, 'SIGKILL', function(err) {
+        // Do things
+        if(err){
+          console.log('kill port process error,', err)
+        }
+        console.log('success kill port process ,')
+        runserver()
+      })
+    }else{
+      // portfinder.basePort = port
+      getPort({port: port}).then(newPort => {
+        console.log(`${port}端口被占用，开启新端口${newPort}`)
+        process.env.PORT = newPort;
+        port = newPort
+        runserver()
+        // Will use 3000 if available, otherwise fall back to a random port
+      });
+      // portfinder.getPort(function(err, newPort){
+      //   if (port !== newPort) {
+      //     console.log(`${port}端口被占用，开启新端口${newPort}`)
+      //     }
+      //     console.log(`${port}端口被占用，开启新端口${newPort}`)
+      //     port = newPort
+          
+      // })
+    }
   }
   
 })
@@ -204,7 +237,7 @@ function runserver(){
       shell.cd(path.join(codePath,'visop'));
       watcher(`📦  Starting server  in ${serverdir}...`, 'npm install');
       shell.cd(serverdir);
-      watcher(`📦  Starting server  in ${serverdir}, this may take several minutes,you can visit localhost:8050 later...`, 'npm install && npm start');
+      watcher(`📦  Starting server  in ${serverdir}, this may take several minutes,you can visit localhost:${port} later...`, 'npm install && npm start');
       // generate(name, tmp, to, err => {
       //   if (err) logger.fatal(err)
       //   console.log()
@@ -215,7 +248,7 @@ function runserver(){
     shell.cd(path.join(codePath,'visop'));
     watcher(`📦  Starting server  in ${serverdir}...`, 'npm install');
     shell.cd(serverdir);
-    watcher(`📦  Starting server  in ${serverdir}, this may take several minutes,you can visit localhost:8050 later...`, 'npm install && npm start');
+    watcher(`📦  Starting server  in ${serverdir}, this may take several minutes,you can visit localhost:${port}  later...`, 'npm install && npm start');
   }
 
 }
