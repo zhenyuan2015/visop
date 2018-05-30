@@ -1,63 +1,74 @@
 {
   "meta": [
     {
-      "key": "name",
+      "id": "name",
       "value": "路由管理",
-      "description": "在页面显示的名称"
+      "description": "在页面显示的名称",
+      "type": "input"
     },
     {
-      "key": "order",
+      "id": "order",
       "value": 1,
-      "description": "控制在页面显示的顺序"
+      "description": "控制在页面显示的顺序",
+      "type": "input"
     },
     {
-      "key": "usage",
+      "id": "usage",
       "value": "服务路由管理",
-      "description": "描述这个配置文件的作用"
+      "description": "描述这个配置文件的作用",
+      "type": "input"
     },
     {
-      "key": "key",
+      "id": "key",
       "value": "id",
-      "description": "描述data数据部分的主键字段名称"
-    },
-    {
-      "key": "fields",
-      "value": [
-        {
-          "name": "id",
-          "description": "路由名称",
-          "type": "input"
-        },
-        {
-          "name": "method",
-          "description": "请求方法",
-          "type": "select",
-          "option": [
-            "GET",
-            "POST"
-          ]
-        },
-        {
-          "name": "authority",
-          "description": "权限码",
-          "type": "input"
-        },
-        {
-          "name": "parameters",
-          "description": "参数校验",
-          "type": "textarea",
-          "row": 5
-        }
-      ],
-      "description": "描述data数据部分的字段描述"
+      "description": "描述data数据部分的主键字段名称",
+      "type": "input"
     }
   ],
-  "fields":{
-
-  },
-  "templates":{
-    
-  },
+  "fields": [
+    {
+      "id": "id",
+      "description": "路由",
+      "type": "input",
+      "config": {}
+    },
+    {
+      "id": "method",
+      "description": "请求方法",
+      "type": "select",
+      "config": {
+        "0": "GET",
+        "1": "POST"
+      }
+    },
+    {
+      "id": "authority",
+      "description": "权限码",
+      "type": "input",
+      "config": {}
+    },
+    {
+      "id": "parameters",
+      "description": "参数",
+      "type": "json",
+      "typeOf": "json",
+      "config": {
+        "row": "5"
+      }
+    },
+    {
+      "id": "action",
+      "description": "请求",
+      "type": "input",
+      "config": {}
+    },
+    {
+      "id": "description",
+      "description": "描述",
+      "type": "input",
+      "config": {}
+    }
+  ],
   "data": [
     {
       "id": "generateRoute",
@@ -66,7 +77,19 @@
       "authority": "100000",
       "controller": "api/generateRoute",
       "action": "do",
-      "parameters": "{\"config\":{\"notEmpty\":true,\"errorMessage\":\"config不能为空\"}}"
+      "parameters": {
+        "config": {
+          "notEmpty": true,
+          "errorMessage": "config不能为1"
+        }
+      },
+      "test": "2",
+      "test1": {
+        "test": true
+      },
+      "ceshi": {
+        "config": "这里可以不填"
+      }
     },
     {
       "id": "getAllRoutes",
@@ -75,7 +98,12 @@
       "authority": "100000",
       "controller": "api/getAllRoutes",
       "action": "do",
-      "parameters": "{\"config\":{\"notEmpty\":true,\"errorMessage\":\"config不能为空\"}}"
+      "parameters": {
+        "config": {
+          "notEmpty": true,
+          "errorMessage": "config不能为空"
+        }
+      }
     },
     {
       "id": "deleteRoute",
@@ -84,7 +112,12 @@
       "authority": "100000",
       "controller": "api/deleteRoute",
       "action": "do",
-      "parameters": "{\"config\":{\"notEmpty\":true,\"errorMessage\":\"config不能为空\"}}"
+      "parameters": {
+        "config": {
+          "notEmpty": true,
+          "errorMessage": "config不能为空"
+        }
+      }
     },
     {
       "id": "generateRoute1",
@@ -93,7 +126,12 @@
       "authority": "100000",
       "controller": "api/generateRoute",
       "action": "do",
-      "parameters": "{\"config\":{\"notEmpty\":true,\"errorMessage\":\"config不能为空\"}}"
+      "parameters": {
+        "config": {
+          "notEmpty": true,
+          "errorMessage": "config不能为空"
+        }
+      }
     },
     {
       "id": "generateRoute2",
@@ -102,13 +140,22 @@
       "authority": "100000",
       "controller": "api/generateRoute",
       "action": "do",
-      "parameters": "{\"config\":{\"notEmpty\":true,\"errorMessage\":\"config不能为空\"}}"
+      "parameters": {
+        "config": {
+          "notEmpty": true,
+          "errorMessage": "config不能为空"
+        }
+      }
     },
     {
-      "id": "createRouter1",
-      "method": "POST",
-      "authority": "1000002",
-      "parameters": "post"
+      "id": "testdev",
+      "description": "测试接口",
+      "type": "",
+      "config": "",
+      "method": "GET",
+      "authority": "1000001",
+      "parameters": {},
+      "action": "do"
     }
   ]
 }
