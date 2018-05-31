@@ -34,6 +34,12 @@ exports.beforeAll = function(){
 }
 
 var addElement= function(config){
+  if(config.__fromElement){
+    // 复制逻辑
+    copyElement(config)
+    return;
+  }
+
   console.log('add element with data:',config, ' you can achieve this function with any program language you familiar with');
   // 初始化信息
   var processCwd = BASE_PATH; // 脚本 根目录
@@ -90,6 +96,65 @@ var addElement= function(config){
 
   console.log('generate protocol end');
 }
+
+function copyElement(config){
+  console.log('copy element with data:',config, ' you can achieve this function with any program language you familiar with');
+  // 初始化信息
+  var processCwd = BASE_PATH; // 脚本 根目录
+  var currentPath = CURRENT_PATH; // npm 根目录
+  var parameters = config.parameters || {}
+  console.log('Step 0 -- output Path：', CURRENT_PATH, ' base path:', BASE_PATH);
+
+  var routerConfigPath = path.join(BASE_PATH, 'config', 'router.json');
+  console.log('Step 0.1 -- add route router config file Path', routerConfigPath)
+  fs.ensureDirSync(path.join(BASE_PATH, 'config')); // 保证config目录存在，如果没有新建一个
+  // 需要把路由分离出来
+  //1 添加路由配置 ../config/router.json
+  try{
+    var routerConfig = require(routerConfigPath);
+  }catch(e){
+    console.log(routerConfigPath, ' route配置文件不存在，创建新的')
+    var routerConfig = {}
+  }
+
+  routerConfig[config.id||'demo'] = { 
+    "route": config.id||'demo', 
+    "method": config.methods||'get', 
+    "description": config.description||'no description', 
+    "authority": config.authority||null, 
+    "controller": "api/"+(config.id||'demo'), 
+    "action": "do",
+    "parameters": config.parameters||null, 
+  };
+  fs.writeFileSync(routerConfigPath, JSON.stringify(routerConfig, null, 4));
+
+  console.log('Step 1 -- 生成controller和service文件');
+
+  //2 创建controller文件和service文件
+  var sourceFile = path.join(BASE_PATH, 'api', config.__fromElement.id+'.js');
+  var targetFile = path.join(BASE_PATH, 'api', config.id+'.js');
+  var targetPath = path.dirname(targetFile); 
+  // shellCmd = 'mkdir -p '+ targetPath +' && cp -f '+sourceFile+' '+targetFile;
+  fs.ensureDirSync(targetPath);
+  // shellCmd = 'cp -f '+sourceFile+' '+targetFile;
+  fs.copySync(sourceFile, targetFile,{overwrite:true});
+
+  // 生成参数校验
+  var paramObj;
+  var validateConfig = JSON.stringify(parameters); // controller中的参数校验语句
+ 
+  nodereplace(targetFile,'\\[validate\\]',validateConfig);
+  
+  sourceFile = path.join(BASE_PATH, 'service', config.__fromElement.id+'.js');
+  targetFile =  path.join(BASE_PATH, 'service', config.id+'.js');
+  targetPath = path.dirname(targetFile);
+  fs.ensureDirSync(targetPath);
+  fs.copySync(sourceFile, targetFile,{overwrite:false});
+  nodereplace(targetFile,'\\[tableName\\]',config.tableName||'user');
+
+  console.log('generate protocol end');
+}
+
 
 var updateElement = addElement;
 

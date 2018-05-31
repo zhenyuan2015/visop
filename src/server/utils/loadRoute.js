@@ -99,6 +99,8 @@ module.exports = function(app){
             //     return next()
             // }
             console.log('configName is:', temp)
+    
+
             if(temp.tableName != 'data'){
                 // 只有操作data才触发钩子函数
                 return next()
@@ -113,21 +115,15 @@ module.exports = function(app){
                         }
                     })
                 }
- 
-                // if( configName == "index" && tableName == "data"){
-                //     console.log('detect data json added, reload route')
-                //     // for(var item in visopHooks){
-                //     //     invalidPackage(path.join(settings.CODE_PATH, 'visop', item))
-                //     // }
-                //     return module.exports(app) 
-                // }
             }
             if(req.method == "PATCH"){
-                visopHooks[configName]["afterUpdate"](req.params.id, req.body, function(err, data){
-                    if(err){
-                        // return next(err)
-                    }
-                })
+                if(visopHooks[configName] && visopHooks[configName]["afterUpdate"]){
+                    visopHooks[configName]["afterUpdate"](req.params.id, req.body, function(err, data){
+                        if(err){
+                            // return next(err)
+                        }
+                    })
+                }
             }
             if(req.method == "DELETE"){
                 if(visopHooks[configName] && visopHooks[configName]["afterDelete"]){
@@ -137,14 +133,6 @@ module.exports = function(app){
                         }
                     })
                 }
- 
-                // if( configName == "index" && tableName == "data"){
-                //     console.log('detect data json deleted, reload route')
-                //     // for(var item in visopHooks){
-                //     //     invalidPackage(item)
-                //     // }
-                //     // return module.exports(app) 
-                // }
             }
             // if(req.baseUrl.replace('/','') == )
             if(visopHooks[configName] && visopHooks[configName]["afterAll"]){

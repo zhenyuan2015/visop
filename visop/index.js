@@ -35,10 +35,25 @@ exports.beforeAll = function(){
 
 var addElement= function(config){
   console.log('add element with data:',config, ' you can achieve this function with any program language you familiar with');
+  
   var sourceFile, targetFile
+  if(connfig.__fromElement){
+    // __fromElement 执行复制的操作
+    sourceFile = path.join(CURRENT_PATH, config.__fromElement.id+'.js');
+    targetFile =  path.join(CURRENT_PATH,  config.id+'.js');
+    fs.copySync(sourceFile, targetFile, {overwrite:false});
+    sourceFile = path.join(CURRENT_PATH, config.__fromElement.id+'.json');
+    targetFile =  path.join(CURRENT_PATH,  config.id+'.json');
+    fs.copySync(sourceFile, targetFile,{overwrite:false});
+    sourceFile = path.join(CURRENT_PATH, config.__fromElement.id);
+    targetFile =  path.join(CURRENT_PATH,  config.id);
+    fs.copySync(sourceFile, targetFile,{overwrite:false});
+    console.log('copy element end');
+    return;
+  }
   sourceFile = path.join(CURRENT_PATH, 'index', 'elements.js');
   targetFile =  path.join(CURRENT_PATH,  config.id+'.js');
-  fs.copySync(sourceFile, targetFile,{overwrite:false});
+  fs.copySync(sourceFile, targetFile, {overwrite:false});
   sourceFile = path.join(CURRENT_PATH, 'index', 'elements.json');
   targetFile =  path.join(CURRENT_PATH,  config.id+'.json');
   fs.copySync(sourceFile, targetFile,{overwrite:false});
@@ -48,7 +63,20 @@ var addElement= function(config){
   console.log('add element end');
 }
 
-var updateElement = addElement;
+var updateElement = function(config){
+    console.log('update element with data:',config, ' you can achieve this function with any program language you familiar with');
+    var sourceFile, targetFile
+    sourceFile = path.join(CURRENT_PATH, 'index', 'elements.js');
+    targetFile =  path.join(CURRENT_PATH,  config.id+'.js');
+    fs.copySync(sourceFile, targetFile,{overwrite:false});
+    sourceFile = path.join(CURRENT_PATH, 'index', 'elements.json');
+    targetFile =  path.join(CURRENT_PATH,  config.id+'.json');
+    fs.copySync(sourceFile, targetFile,{overwrite:false});
+    sourceFile = path.join(CURRENT_PATH, 'index', 'elements');
+    targetFile =  path.join(CURRENT_PATH,  config.id);
+    fs.copySync(sourceFile, targetFile,{overwrite:false});
+    console.log('update element end');
+};
 
 function nodereplace(file, strfrom, strto){
   var options = {

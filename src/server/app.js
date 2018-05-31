@@ -137,7 +137,7 @@ require('./utils/loadRoute')(app);
 
 const chokidar = require('chokidar');
 const invalidate = require('invalidate-module');
-const watcher = chokidar.watch(path.join(setting.CODE_PATH, 'visop'), { ignoreInitial: true });
+const watcher = chokidar.watch(path.join(setting.CODE_PATH, 'visop'), { ignoreInitial: true, awaitWriteFinish: true });
 
 
 watcher.on('all', (event, filename) => {

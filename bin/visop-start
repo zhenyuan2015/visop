@@ -55,6 +55,8 @@ program
   .option('-p, --path [value]', 'define the code path')
   .option('-P, --PORT [n]', 'define the running port', parseInt)
   .option('-f, --force', 'define whether kill the process when port is not free')
+  .option('-n, --name [value]', 'define the json name used in the admin ui', '项目')
+  .option('-i, --id [value]', 'define the json unique id used in the admin ui')
   .parse(process.argv)
   // .option('--offline', 'use cached template')
 
@@ -92,8 +94,9 @@ program.on('--help', () => {
 var template = "visop-defaultconfig"
 const rawName = ""
 const inPlace = !rawName || rawName === '.'
-const name = "visop"
-
+const indexJsonName = program.name || 'project1'; // index.json里meta的id
+const indexJsonId = program.id || 'project1' // index.json里meta的name
+// console.log('dddddddddddddddddddd', indexJsonName, indexJsonId)
 const clone = program.clone || false
 
 const tmp = path.join(home, '.visop-templates', template.replace(/[\/:]/g, '-'))
@@ -233,6 +236,10 @@ function runserver(){
       logger.success('Generated visop folder success "%s".', tmp)
       fse.ensureDirSync(tmp)
       fse.copySync(tmp, destDir)
+      modifyIndexJson(path.join(destDir, 'index.json'), {
+        id: indexJsonId,
+        name: indexJsonName
+      })
       console.log()
       shell.cd(path.join(codePath,'visop'));
       watcher(`📦  Starting server  in ${serverdir}...`, 'npm install');
@@ -253,6 +260,23 @@ function runserver(){
 
 }
 
+function modifyIndexJson(indexpath, obj){
+  console.log(`modify ${indexpath} with `, JSON.stringify(obj))
+  var routerConfig = require(indexpath);
+
+  for(var i=0;i<routerConfig['meta'].length;i++){
+    // console.log("routerConfig['meta'][i]",routerConfig['meta'][i])
+    if(routerConfig['meta'][i].id == 'id'){
+      routerConfig['meta'][i].value = obj.id
+    }
+    if(routerConfig['meta'][i].id == 'name'){
+      // console.log("routerConfig['meta'][i].id",routerConfig['meta'][i].id)
+      routerConfig['meta'][i].value = obj.name
+    }
+  }
+
+  fse.writeFileSync(indexpath, JSON.stringify(routerConfig, null, 4));
+}
 
 function run () {
   // check if template is local
