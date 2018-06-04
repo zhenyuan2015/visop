@@ -24,7 +24,7 @@ module.exports = function(app){
         }
         // res.jsonp = res._jsonp
         try{
-            console.log('before............', req.path,req.method)
+            // console.log('before............', req.path,req.method)
             var temp = parsePath(req);
             var configName = temp.configName;
             var tableName = temp.tableName;
@@ -84,9 +84,9 @@ module.exports = function(app){
 
     app.use(function(req, res, next){
     //    console.log('after route ...', req)
-       console.log('after router')
+    //    console.log('after router')
         try{
-            console.log('after............', req.originalUrl)
+            // console.log('after............', req.originalUrl)
             // var visopHook = require("")
             // if(!req.visop || !req.visop.configName){
             //     return;
@@ -98,7 +98,7 @@ module.exports = function(app){
             // if(!visopHooks[configName]){
             //     return next()
             // }
-            console.log('configName is:', temp)
+            // console.log('configName is:', temp)
     
 
             if(temp.tableName != 'data'){
