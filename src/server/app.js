@@ -4,6 +4,7 @@ var path = require('path');
 var fse = require('fs-extra');
 var express = require('express');
 var shell = require('shelljs')
+var loww = require('lowdb')
 // var m = require('./api/diagnosticRecord/service');
 // var doc = {
 //     birthday:'1488811074459',
@@ -137,15 +138,15 @@ require('./utils/loadRoute')(app);
 
 const chokidar = require('chokidar');
 const invalidate = require('invalidate-module');
-const watcher = chokidar.watch(path.join(setting.CODE_PATH, 'visop'), { ignoreInitial: true, awaitWriteFinish: true });
+// const watcher = chokidar.watch(path.join(setting.CODE_PATH, 'visop'), { ignoreInitial: true, awaitWriteFinish: true });
 
 
-watcher.on('all', (event, filename) => {
-    console.log('visop files changed', filename)
-  invalidate(path.resolve(filename));
-  require('./utils/loadRoute')(app);
-//   require('./a');
-});
+// watcher.on('all', (event, filename) => {
+//     console.log('visop files changed', filename)
+//   invalidate(path.resolve(filename));
+//   require('./utils/loadRoute')(app);
+// //   require('./a');
+// });
 // // 加载API目录
 // for (var i = 0; i < route_list.length; i++) {
 //    var routePath =  path.join(global.API_PATH, route_list[i].name, route_list[i].name + ".router");

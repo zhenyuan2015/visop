@@ -56,7 +56,7 @@ $ visop start
 
 ### visop使用案例
 - express后端接口管理，待完成
-- vue前端路由管理，待完成
+- [vue前端路由管理](https://github.com/zhenyuan2015/visop-vue)
 
 ### visop接入指南
 - 待补充
