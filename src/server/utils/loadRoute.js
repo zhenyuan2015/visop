@@ -36,10 +36,6 @@ module.exports = function(app){
                 // 只有操作data才触发钩子函数
                 return next()
             }
-
-            // if(req.baseUrl.replace('/','') == )
-
-
             if(req.method == "POST"){
                 // console.log('req.body', req.body, visopHooks[configName]["beforeAdd"])
                 if(visopHooks[configName]["beforeAdd"]){
@@ -68,6 +64,7 @@ module.exports = function(app){
                     })
                 }
             }
+            // if(req.baseUrl.replace('/','') == )
             if(visopHooks[configName]["beforeAll"]){
                 visopHooks[configName]["beforeAll"](req, function(err, data){
                     if(err){
@@ -141,7 +138,7 @@ module.exports = function(app){
             if(visopHooks[configName] && visopHooks[configName]["afterAll"]){
                 visopHooks[configName]["afterAll"](req, function(err, data){
                     if(err){
-                        return next(err)
+                        // return next(err)
                     }
                 })
             }

@@ -4,7 +4,6 @@ var path = require('path');
 var fse = require('fs-extra');
 var express = require('express');
 var shell = require('shelljs')
-var loww = require('lowdb')
 // var m = require('./api/diagnosticRecord/service');
 // var doc = {
 //     birthday:'1488811074459',
@@ -135,15 +134,36 @@ app.use(function(req, res, next){
 // ********************************************************
 
 require('./utils/loadRoute')(app);
+// var reload = require('reload')
+// var reloadServer = reload(app);
+// const chokidar = require('chokidar');
+// const watcher = chokidar.watch(path.join(setting.CODE_PATH, 'visop'), { ignoreInitial: true, awaitWriteFinish: true });
+// watch.watchTree(path.join(setting.CODE_PATH, 'visop'), function (f, curr, prev) {
+//     // Fire server-side reload event
+//     console.log('f,',f,'curr, ',curr,'prev,',prev)
+//     reloadServer.reload();
+// });
+// watcher.on('change', (event, filename) => {
+//     console.log('visop files added', filename)
+//     reloadServer.reload();
+//     // if(filename.endsWith('.json')){
+//     //     // allFileNames.value.indexOf(path.basename(filename, '.json'))
+//     //     reloadServer.reload();
+//     // }
+// })
 
-const chokidar = require('chokidar');
-const invalidate = require('invalidate-module');
+// const chokidar = require('chokidar');
+// const invalidate = require('invalidate-module');
 // const watcher = chokidar.watch(path.join(setting.CODE_PATH, 'visop'), { ignoreInitial: true, awaitWriteFinish: true });
 
 
-// watcher.on('all', (event, filename) => {
-//     console.log('visop files changed', filename)
-//   invalidate(path.resolve(filename));
+// watcher.on('add', (event, filename) => {
+//     console.log('visop files added', filename)
+//     if(filename.endsWith('.json')){
+//         allFileNames.value.indexOf(path.basename(filename, '.json'))
+//     }
+    
+// //   invalidate(path.resolve(filename));
 //   require('./utils/loadRoute')(app);
 // //   require('./a');
 // });

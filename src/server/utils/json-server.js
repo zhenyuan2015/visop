@@ -44,7 +44,7 @@ module.exports = function(router, visopHooks){
             try{
                 tempfile = file.replace('.js', '') 
                 if(allFiles.indexOf(tempfile+'.json')>-1){
-                    visopHooks[tempfile] = requireUncached(fullpath);
+                    visopHooks[tempfile] = require(fullpath);
                 }
             }
             catch(e){
