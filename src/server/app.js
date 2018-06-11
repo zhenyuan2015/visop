@@ -143,13 +143,13 @@ require('./utils/loadRoute')(app);
 //     console.log('f,',f,'curr, ',curr,'prev,',prev)
 //     reloadServer.reload();
 // });
-// watcher.on('change', (event, filename) => {
-//     console.log('visop files added', filename)
-//     reloadServer.reload();
-//     // if(filename.endsWith('.json')){
-//     //     // allFileNames.value.indexOf(path.basename(filename, '.json'))
-//     //     reloadServer.reload();
-//     // }
+// watcher.on('all', (event, filename) => {
+    // console.log('visop files added', filename)
+    // reloadServer.reload();
+    // if(filename.endsWith('.json')){
+    //     // allFileNames.value.indexOf(path.basename(filename, '.json'))
+    //     reloadServer.reload();
+    // }
 // })
 
 // const chokidar = require('chokidar');

@@ -143,6 +143,46 @@ process.env.CODE_PATH = codePath;
 // }).catch(res => {
 //   console.log('error when kill port process,',res)
 // })
+var childProcess = null;
+
+const chokidar = require('chokidar');
+const chokidarWatcher = chokidar.watch(codePath, { ignoreInitial: true, awaitWriteFinish: true, ignored:/\.git/ });
+// const chokidarWatcher = chokidar.watch(codePath, { ignoreInitial: true });
+var isChanging = false;
+// console.log("2222222222222222222222222",path.join(codePath),chokidarWatcher.getWatched())
+chokidarWatcher.on('all', (event, filename) => {
+
+    console.log('visop files changed', event, filename)
+    if(!isChanging){
+      isChanging = true;
+      shellCmd = `sh ${codePath}/visop/gitpush.sh ${codePath}`;
+      shellResult = shell.exec(shellCmd);
+      isChanging = false
+    }
+
+    if(event == 'add' ){
+      var temp = path.basename(filename)
+      var temp1 = path.dirname(filename)
+      console.log('temp,',temp,', ',path.basename(temp1))
+      if(temp.endsWith('.json') && path.basename(temp1) == 'visop'){
+        console.log('hahahhaahhahaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
+        if(childProcess){
+          kill(childProcess.pid, 'SIGTERM', function(err){
+            if(err){
+              console.log('kill port process error,', err)
+            }
+            childProcess = shell.exec('npm start', {async:true})
+            childProcess.stdout.on('exit', function(data, signal) {
+              /* ... do something with data ... */
+              console.log(`子进程收到信号 ${signal} 而终止`);
+
+            })
+          })
+        }
+      }
+    }
+});
+
 
 find('port', port)
 .then(function (list) {
@@ -181,6 +221,8 @@ find('port', port)
   }
   
 })
+
+console.log('end .............................')
 // detect(port, (err, _port) => {
 //   if (err) {
 //     console.log(err);
@@ -244,7 +286,18 @@ function runserver(){
       shell.cd(path.join(codePath,'visop'));
       watcher(`📦  Starting server  in ${serverdir}...`, 'npm install');
       shell.cd(serverdir);
-      watcher(`📦  Starting server  in ${serverdir}, this may take several minutes,you can visit localhost:${port} later...`, 'npm install && npm start');
+      // watcher(`📦  Starting server  in ${serverdir}, this may take several minutes,you can visit localhost:${port} later...`, 'npm install && npm start');
+      console.log(`📦  Starting server  in ${serverdir}, this may take several minutes,you can visit localhost:${port} later...`)
+      childProcess = shell.exec('npm install && npm start', {async:true})
+      // child.stdout.on('data', function(data) {
+      //   /* ... do something with data ... */
+      //   console.log(data)
+      // })
+      childProcess.stdout.on('exit', function(data, signal) {
+        /* ... do something with data ... */
+        console.log(`子进程收到信号 ${signal} 而终止`);
+
+      })
       // generate(name, tmp, to, err => {
       //   if (err) logger.fatal(err)
       //   console.log()
@@ -255,7 +308,18 @@ function runserver(){
     shell.cd(path.join(codePath,'visop'));
     watcher(`📦  Starting server  in ${serverdir}...`, 'npm install');
     shell.cd(serverdir);
-    watcher(`📦  Starting server  in ${serverdir}, this may take several minutes,you can visit localhost:${port}  later...`, 'npm install && npm start');
+    // watcher(`📦  Starting server  in ${serverdir}, this may take several minutes,you can visit localhost:${port}  later...`, 'npm install && npm start');
+    console.log(`📦  Starting server  in ${serverdir}, this may take several minutes,you can visit localhost:${port} later...`)
+    childProcess = shell.exec('npm install && npm start', {async:true})
+    // child.stdout.on('data', function(data) {
+    //   /* ... do something with data ... */
+    //   console.log(data)
+    // })
+    childProcess.stdout.on('exit', function(data, signal) {
+      /* ... do something with data ... */
+      console.log(`子进程收到信号 ${signal} 而终止`);
+      
+    })
   }
 
 }
