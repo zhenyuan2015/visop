@@ -118,6 +118,9 @@ module.exports = function(app){
             }
             if(req.method == "PATCH"){
                 if(visopHooks[configName] && visopHooks[configName]["afterUpdate"]){
+                    if(req.body.__fromElement){
+                        delete req.body.__fromElement
+                    }
                     visopHooks[configName]["afterUpdate"](req.params.id, req.body, function(err, data){
                         if(err){
                             // return next(err)

@@ -81,5 +81,15 @@ export function serachRoute(url,data) {
   return request({
     url: url + '?q=' + data,
     method: 'get',
+  }).then(res => {
+    console.log(res.data,'getAll')
+    for(let i=0;i<res.data.length;i++){
+      for( let s in res.data[i]){
+        if(typeof res.data[i][s] !='string'){
+          res.data[i][s] = JSON.stringify(res.data[i][s])
+        }
+      }
+    }
+    return res
   })
 }
