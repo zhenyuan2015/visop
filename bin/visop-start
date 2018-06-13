@@ -154,12 +154,12 @@ chokidarWatcher.on('all', (event, filename) => {
 
     
     console.log('visop files changed', event, filename)
-    if(!isChanging){
-      isChanging = true;
-      shellCmd = `sh ${codePath}/visop/gitpush.sh ${codePath}`;
-      shellResult = shell.exec(shellCmd);
-      isChanging = false
-    }
+    // if(!isChanging){
+    //   isChanging = true;
+    //   shellCmd = `sh ${codePath}/visop/gitpush.sh ${codePath}`;
+    //   shellResult = shell.exec(shellCmd);
+    //   isChanging = false
+    // }
 
     if(event == 'add' ){
       var temp = path.basename(filename)
