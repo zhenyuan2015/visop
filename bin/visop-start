@@ -152,6 +152,7 @@ var isChanging = false;
 // console.log("2222222222222222222222222",path.join(codePath),chokidarWatcher.getWatched())
 chokidarWatcher.on('all', (event, filename) => {
 
+    
     console.log('visop files changed', event, filename)
     if(!isChanging){
       isChanging = true;
@@ -165,18 +166,16 @@ chokidarWatcher.on('all', (event, filename) => {
       var temp1 = path.dirname(filename)
       console.log('temp,',temp,', ',path.basename(temp1))
       if(temp.endsWith('.json') && path.basename(temp1) == 'visop'){
-        console.log('hahahhaahhahaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
+        // console.log('hahahhaahhahaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
         if(childProcess){
           kill(childProcess.pid, 'SIGTERM', function(err){
             if(err){
               console.log('kill port process error,', err)
             }
             childProcess = shell.exec('npm start', {async:true})
-            childProcess.stdout.on('exit', function(data, signal) {
-              /* ... do something with data ... */
+            childProcess.on('exit', (data, signal) => {
               console.log(`子进程收到信号 ${signal} 而终止`);
-
-            })
+            });
           })
         }
       }
@@ -293,11 +292,14 @@ function runserver(){
       //   /* ... do something with data ... */
       //   console.log(data)
       // })
-      childProcess.stdout.on('exit', function(data, signal) {
-        /* ... do something with data ... */
-        console.log(`子进程收到信号 ${signal} 而终止`);
+      // childProcess.stdout.on('exit', function(data, signal) {
+      //   /* ... do something with data ... */
+      //   console.log(`子进程收到信号 ${signal} 而终止`);
 
-      })
+      // })
+      childProcess.on('exit', (data, signal) => {
+        console.log(`子进程收到信号 ${signal} 而终止`);
+      });
       // generate(name, tmp, to, err => {
       //   if (err) logger.fatal(err)
       //   console.log()
@@ -315,11 +317,9 @@ function runserver(){
     //   /* ... do something with data ... */
     //   console.log(data)
     // })
-    childProcess.stdout.on('exit', function(data, signal) {
-      /* ... do something with data ... */
+    childProcess.on('exit', (data, signal) => {
       console.log(`子进程收到信号 ${signal} 而终止`);
-      
-    })
+    });
   }
 
 }
