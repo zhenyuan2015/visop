@@ -17,6 +17,8 @@
       :key="index"
       :label=items.description
       sortable
+      :show-overflow-tooltip="true"
+      :formatter = "formatter"
       align="center">
         <template slot-scope="scope">
           <span>{{scope.row[items.id]}}</span>
@@ -38,7 +40,7 @@
     </div>
 
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" @close="clearDialog">
-      <el-form ref="dataForm" :model="temp" label-position="left" label-width="70px" style='width: 400px; margin-left:50px;'>
+      <el-form ref="dataForm" :model="temp" label-position="top" label-width="70px" style='width: 90%; margin:10px;height:100%'>
         <el-form-item :label="items.description" v-for="(items,index) in list.header" :key="index" :prop="items.id" >
           <el-input v-if="items.type=='input'" v-model="temp[items.id]"></el-input>
           <el-select v-else-if="items.type=='select'" class="filter-item" v-model="temp[items.id]" placeholder="请选择">
@@ -46,8 +48,6 @@
           </el-select>
           <el-input v-else-if="items.type=='textarea' || items.type=='json'" type="textarea" :rows="items.config.row" v-model="temp[items.id]"></el-input>
         </el-form-item>
-
-
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">{{$t('table.cancel')}}</el-button>
@@ -476,6 +476,11 @@ export default {
       const index = this.list.indexOf(row)
       this.list.splice(index, 1)
     },
+    formatter(row, column, cellValue, index) {
+      console.log("arguments",row,column,cellValue,index)
+      // return cellValue+','+index
+      return cellValue
+    }
   }
 }
 </script>
