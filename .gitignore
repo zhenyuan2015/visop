@@ -2,7 +2,6 @@
 node_modules
 test/e2e/mock-template-build
 *.log
-dist/
 src/server/node_modules
 src/server/logs
 src/front/node_modules

@@ -40,7 +40,7 @@ module.exports = function(router, visopHooks){
                 console.log('err:',e," when add router for:",fullpath)
             }
         }
-        if(file.endsWith(".js")){
+        if(file.endsWith(".js") && file != "package.json" && file != "package-lock.json"){
             try{
                 tempfile = file.replace('.js', '') 
                 if(allFiles.indexOf(tempfile+'.json')>-1){

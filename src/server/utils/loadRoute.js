@@ -141,14 +141,14 @@ module.exports = function(app){
             if(visopHooks[configName] && visopHooks[configName]["afterAll"]){
                 console.log('before setTimeout',Date.now())
                 // 加个延迟时间，保证文件已经写入后才触发后续操作
-                setTimeout(function(){
+                // setTimeout(function(){
                     console.log(Date.now())
                     visopHooks[configName]["afterAll"](req, function(err, data){
                         if(err){
                             // return next(err)
                         }
                     })    
-                },200)
+                // },200)
 
             }
         }catch(e){

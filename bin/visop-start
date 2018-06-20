@@ -19,6 +19,7 @@ const localPath = require('../lib/local-path')
 const shell = require('shelljs')
 const isLocalPath = localPath.isLocalPath
 const getTemplatePath = localPath.getTemplatePath
+var schedule = require('node-schedule');
 var kill = require('tree-kill'); //https://github.com/pkrumins/node-tree-kill
 // const detect = require('detect-port');
 const find = require('find-process'); // https://www.npmjs.com/package/find-process
@@ -45,6 +46,63 @@ var watcher = (label, cmd, withSuccess = true) => {
   }
 
 };
+
+var fileChanges = [];
+function sechduleSetup(){
+    
+    schedule.scheduleJob('*/1 * * * *', function () {
+      try{
+        if(fileChanges.length > 0){
+          if(require(`${codePath}/visop/index.js`).afterFileChange){
+            require(`${codePath}/visop/index.js`).afterFileChange();
+          }
+          fileChanges = [];
+        }
+
+      }catch(e){
+        console.log('schedule error:',e)
+      }
+      
+    });
+}
+sechduleSetup();
+
+function watchFils(){
+  const chokidar = require('chokidar');
+  const chokidarWatcher = chokidar.watch(codePath, { ignoreInitial: true, awaitWriteFinish: true, ignored:/\.git/ });
+  chokidarWatcher.on('all', (event, filename) => {
+    console.log('visop files changed', event, filename)
+    // if(!isChanging){
+    //   isChanging = true;
+    //   shellCmd = `sh ${codePath}/visop/gitpush.sh ${codePath}`;
+    //   shellResult = shell.exec(shellCmd);
+    //   isChanging = false
+    // }
+    fileChanges.push({
+      event: event, filename:filename
+    })
+
+    if(event == 'add' ){
+      var temp = path.basename(filename)
+      var temp1 = path.dirname(filename)
+      console.log('temp,',temp,', ',path.basename(temp1))
+      if(temp.endsWith('.json') && path.basename(temp1) == 'visop'){
+        // console.log('hahahhaahhahaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
+        if(childProcess){
+          kill(childProcess.pid, 'SIGTERM', function(err){
+            if(err){
+              console.log('kill port process error,', err)
+            }
+            childProcess = shell.exec('npm start', {async:true})
+            childProcess.on('exit', (data, signal) => {
+              console.log(`子进程收到信号 ${data}  ${signal} 而终止`);
+            });
+          })
+        }
+      }
+    }
+});
+}
 
 /**
  * Usage.
@@ -145,42 +203,11 @@ process.env.CODE_PATH = codePath;
 // })
 var childProcess = null;
 
-const chokidar = require('chokidar');
-const chokidarWatcher = chokidar.watch(codePath, { ignoreInitial: true, awaitWriteFinish: true, ignored:/\.git/ });
+
 // const chokidarWatcher = chokidar.watch(codePath, { ignoreInitial: true });
 var isChanging = false;
 // console.log("2222222222222222222222222",path.join(codePath),chokidarWatcher.getWatched())
-chokidarWatcher.on('all', (event, filename) => {
 
-    
-    console.log('visop files changed', event, filename)
-    // if(!isChanging){
-    //   isChanging = true;
-    //   shellCmd = `sh ${codePath}/visop/gitpush.sh ${codePath}`;
-    //   shellResult = shell.exec(shellCmd);
-    //   isChanging = false
-    // }
-
-    if(event == 'add' ){
-      var temp = path.basename(filename)
-      var temp1 = path.dirname(filename)
-      console.log('temp,',temp,', ',path.basename(temp1))
-      if(temp.endsWith('.json') && path.basename(temp1) == 'visop'){
-        // console.log('hahahhaahhahaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
-        if(childProcess){
-          kill(childProcess.pid, 'SIGTERM', function(err){
-            if(err){
-              console.log('kill port process error,', err)
-            }
-            childProcess = shell.exec('npm start', {async:true})
-            childProcess.on('exit', (data, signal) => {
-              console.log(`子进程收到信号 ${signal} 而终止`);
-            });
-          })
-        }
-      }
-    }
-});
 
 
 find('port', port)
@@ -219,6 +246,7 @@ find('port', port)
     }
   }
   
+
 })
 
 console.log('end .............................')
@@ -298,8 +326,9 @@ function runserver(){
 
       // })
       childProcess.on('exit', (data, signal) => {
-        console.log(`子进程收到信号 ${signal} 而终止`);
+        console.log(`子进程收到信号 ${data}  ${signal} 而终止`);
       });
+      watchFils()
       // generate(name, tmp, to, err => {
       //   if (err) logger.fatal(err)
       //   console.log()
@@ -318,8 +347,9 @@ function runserver(){
     //   console.log(data)
     // })
     childProcess.on('exit', (data, signal) => {
-      console.log(`子进程收到信号 ${signal} 而终止`);
+      console.log(`子进程收到信号 ${data}  ${signal} 而终止`);
     });
+    watchFils()
   }
 
 }
