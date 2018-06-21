@@ -211,6 +211,14 @@ var childProcess = null;
 var isChanging = false;
 // console.log("2222222222222222222222222",path.join(codePath),chokidarWatcher.getWatched())
 
+// find and kill port process on linux
+if(forcePort){
+  if(process.platform == 'linux'){
+    if(fse.existsSync(path.join(__dirname, '..','lib','findandkillbyport.sh'))){
+      shell.exec("sh "+path.join(__dirname, '..','lib','findandkillbyport.sh'))
+    }
+  }
+}
 
 
 find('port', port)
@@ -316,9 +324,9 @@ function runserver(){
       shell.cd(path.join(codePath,'visop'));
       watcher(`📦  Starting server  in ${serverdir}...`, 'npm install');
       shell.cd(serverdir);
-      watcher(`📦  Starting server  in ${serverdir}, this may take several minutes,you can visit localhost:${port} later...`, 'npm install && npm start');
-      // console.log(`📦  Starting server  in ${serverdir}, this may take several minutes,you can visit localhost:${port} later...`)
-      // childProcess = shell.exec('npm install && npm start', {async:true})
+      // watcher(`📦  Starting server  in ${serverdir}, this may take several minutes,you can visit localhost:${port} later...`, 'npm install && npm start');
+      console.log(`📦  Starting server  in ${serverdir}, this may take several minutes,you can visit localhost:${port} later...`)
+      childProcess = shell.exec('npm install && npm start', {async:true})
       // child.stdout.on('data', function(data) {
       //   /* ... do something with data ... */
       //   console.log(data)
@@ -342,16 +350,16 @@ function runserver(){
     shell.cd(path.join(codePath,'visop'));
     watcher(`📦  Starting server  in ${serverdir}...`, 'npm install');
     shell.cd(serverdir);
-    watcher(`📦  Starting server  in ${serverdir}, this may take several minutes,you can visit localhost:${port}  later...`, 'npm install && npm start');
-    // console.log(`📦  Starting server  in ${serverdir}, this may take several minutes,you can visit localhost:${port} later...`)
-    // childProcess = shell.exec('npm install && npm start', {async:true})
+    // watcher(`📦  Starting server  in ${serverdir}, this may take several minutes,you can visit localhost:${port}  later...`, 'npm install && npm start');
+    console.log(`📦  Starting server  in ${serverdir}, this may take several minutes,you can visit localhost:${port} later...`)
+    childProcess = shell.exec('npm install && npm start', {async:true})
     // child.stdout.on('data', function(data) {
     //   /* ... do something with data ... */
     //   console.log(data)
     // })
-    // childProcess.on('exit', (data, signal) => {
-    //   console.log(`子进程收到信号 ${data}  ${signal} 而终止`);
-    // });
+    childProcess.on('exit', (data, signal) => {
+      console.log(`子进程收到信号 ${data}  ${signal} 而终止`);
+    });
     watchFils()
   }
 
