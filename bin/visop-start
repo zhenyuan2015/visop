@@ -65,10 +65,10 @@ function sechduleSetup(){
       
     });
 }
-// sechduleSetup();
+sechduleSetup();
 
 function watchFils(){
-  return;
+  // return;
   const chokidar = require('chokidar');
   const chokidarWatcher = chokidar.watch(codePath, { ignoreInitial: true, awaitWriteFinish: true, ignored:/\.git/ });
   chokidarWatcher.on('all', (event, filename) => {
@@ -90,6 +90,7 @@ function watchFils(){
       if(temp.endsWith('.json') && path.basename(temp1) == 'visop'){
         // console.log('hahahhaahhahaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
         if(childProcess){
+          linuxKillPort()
           kill(childProcess.pid, 'SIGTERM', function(err){
             if(err){
               console.log('kill port process error,', err)
@@ -196,6 +197,11 @@ console.log()
 process.on('exit', () => {
   console.log("server stop")
 })
+
+process.on('exit', () => {
+  console.log("server stop")
+})
+
 process.env.CODE_PATH = codePath;
 // const kill = require('kill-port')
 // kill(8050).then(res =>{
@@ -213,13 +219,24 @@ var isChanging = false;
 
 // find and kill port process on linux
 if(forcePort){
-  if(process.platform == 'linux'){
-    if(fse.existsSync(path.join(__dirname, '..','lib','findandkillbyport.sh'))){
-      shell.exec("sh "+path.join(__dirname, '..','lib','findandkillbyport.sh'))
-    }
-  }
+  linuxKillPort()
 }
 
+process.on('SIGINT', function(){
+  linuxKillPort()
+  process.exit(0)
+})
+
+function linuxKillPort(){
+  if(process.platform == 'linux'){
+    if(fse.existsSync(path.join(__dirname, '..','lib','findandkillbyport.sh'))){
+      var shellstr1 = "sh "+path.join(__dirname, '..','lib','findandkillbyport.sh')+" "+port      
+      console.log(shellstr1)                                                                      
+      shell.exec(shellstr1)  
+    }
+  }
+
+}
 
 find('port', port)
 .then(function (list) {
