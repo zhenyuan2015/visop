@@ -65,9 +65,10 @@ function sechduleSetup(){
       
     });
 }
-sechduleSetup();
+// sechduleSetup();
 
 function watchFils(){
+  return;
   const chokidar = require('chokidar');
   const chokidarWatcher = chokidar.watch(codePath, { ignoreInitial: true, awaitWriteFinish: true, ignored:/\.git/ });
   chokidarWatcher.on('all', (event, filename) => {
