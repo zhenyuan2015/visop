@@ -116,6 +116,8 @@ program
   .option('-f, --force', 'define whether kill the process when port is not free')
   .option('-n, --name [value]', 'define the json name used in the admin ui', '项目')
   .option('-i, --id [value]', 'define the json unique id used in the admin ui')
+  .option('--pm2 [value]', 'define if use pm2 and the app name')
+  // .option('-i, --id [value]', 'define the json unique id used in the admin ui')
   .parse(process.argv)
   // .option('--offline', 'use cached template')
 
@@ -314,9 +316,9 @@ function runserver(){
       shell.cd(path.join(codePath,'visop'));
       watcher(`📦  Starting server  in ${serverdir}...`, 'npm install');
       shell.cd(serverdir);
-      // watcher(`📦  Starting server  in ${serverdir}, this may take several minutes,you can visit localhost:${port} later...`, 'npm install && npm start');
-      console.log(`📦  Starting server  in ${serverdir}, this may take several minutes,you can visit localhost:${port} later...`)
-      childProcess = shell.exec('npm install && npm start', {async:true})
+      watcher(`📦  Starting server  in ${serverdir}, this may take several minutes,you can visit localhost:${port} later...`, 'npm install && npm start');
+      // console.log(`📦  Starting server  in ${serverdir}, this may take several minutes,you can visit localhost:${port} later...`)
+      // childProcess = shell.exec('npm install && npm start', {async:true})
       // child.stdout.on('data', function(data) {
       //   /* ... do something with data ... */
       //   console.log(data)
@@ -326,9 +328,9 @@ function runserver(){
       //   console.log(`子进程收到信号 ${signal} 而终止`);
 
       // })
-      childProcess.on('exit', (data, signal) => {
-        console.log(`子进程收到信号 ${data}  ${signal} 而终止`);
-      });
+      // childProcess.on('exit', (data, signal) => {
+      //   console.log(`子进程收到信号 ${data}  ${signal} 而终止`);
+      // });
       watchFils()
       // generate(name, tmp, to, err => {
       //   if (err) logger.fatal(err)
@@ -340,16 +342,16 @@ function runserver(){
     shell.cd(path.join(codePath,'visop'));
     watcher(`📦  Starting server  in ${serverdir}...`, 'npm install');
     shell.cd(serverdir);
-    // watcher(`📦  Starting server  in ${serverdir}, this may take several minutes,you can visit localhost:${port}  later...`, 'npm install && npm start');
-    console.log(`📦  Starting server  in ${serverdir}, this may take several minutes,you can visit localhost:${port} later...`)
-    childProcess = shell.exec('npm install && npm start', {async:true})
+    watcher(`📦  Starting server  in ${serverdir}, this may take several minutes,you can visit localhost:${port}  later...`, 'npm install && npm start');
+    // console.log(`📦  Starting server  in ${serverdir}, this may take several minutes,you can visit localhost:${port} later...`)
+    // childProcess = shell.exec('npm install && npm start', {async:true})
     // child.stdout.on('data', function(data) {
     //   /* ... do something with data ... */
     //   console.log(data)
     // })
-    childProcess.on('exit', (data, signal) => {
-      console.log(`子进程收到信号 ${data}  ${signal} 而终止`);
-    });
+    // childProcess.on('exit', (data, signal) => {
+    //   console.log(`子进程收到信号 ${data}  ${signal} 而终止`);
+    // });
     watchFils()
   }
 
