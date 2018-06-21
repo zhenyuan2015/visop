@@ -6,7 +6,8 @@
   "bin": {
     "visop": "bin/visop",
     "visop-init": "bin/visop-init",
-    "visop-list": "bin/visop-list"
+    "visop-list": "bin/visop-list",
+    "visop-start": "bin/visop-start"
   },
   "repository": {
     "type": "git",
