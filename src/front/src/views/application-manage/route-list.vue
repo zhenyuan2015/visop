@@ -25,11 +25,12 @@
           <a v-else target="_blank" :href="scope.row[items.id]">{{scope.row[items.id]}}</a>
         </template>
       </el-table-column>
-      <el-table-column align="center" :label="$t('table.actions')" width="230" class-name="small-padding fixed-width">
+      <el-table-column align="center" :label="$t('table.actions')" min-width="130" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button type="primary" size="mini" @click="handleUpdate(scope.row,'updata')">{{$t('table.edit')}}</el-button>
-          <el-button type="success" size="mini" @click="handleUpdate(scope.row,'copy')">{{$t('table.copy')}}</el-button>
-          <el-button v-if="scope.row.status!='delete'" size="mini" type="error" @click="handleModifyStatus(scope.$index,scope.row,'delete')">{{$t('table.delete')}}
+          <el-button v-if="checkPermission(scope.row, '__visopexecute')" type="warning" size="mini" @click="handleExecute(scope.row,'execute')">{{$t('table.execute')}}</el-button>
+          <el-button v-if="checkPermission(scope.row, '__visopedit')" type="primary" size="mini" @click="handleUpdate(scope.row,'updata')">{{$t('table.edit')}}</el-button>
+          <el-button v-if="checkPermission(scope.row, '__visopcopy')" type="success" size="mini" @click="handleUpdate(scope.row,'copy')">{{$t('table.copy')}}</el-button>
+          <el-button v-if="checkPermission(scope.row, '__visopdelete')" size="mini" type="danger" @click="handleModifyStatus(scope.$index,scope.row,'delete')">{{$t('table.delete')}}
           </el-button>
         </template>
       </el-table-column>
@@ -117,6 +118,50 @@ export default {
     console.log('router',this.routes)
   },
   methods: {
+    checkPermission(row, action){
+      // console.log("checkPermission,", row.id, action,row[action],row[action] == undefined)
+      switch(action){
+        case '__visopedit':
+        case '__visopcopy':
+        case '__visopdelete':
+          if(row[action] == undefined || row[action] == true){
+            return true;
+          }else{
+            return false;
+          }
+          break;
+        case '__visopexecute':
+          if(row[action]){
+            return true;
+          }else{
+            return false;
+          }
+      }
+      return true;
+    },
+    handleExecute(row){
+        console.log('handleExecute')
+          let datas = JSON.parse(JSON.stringify(row))
+          for( let i in datas){
+            datas[i] = this.doData(datas[i])
+          }
+          console.log(datas,'执行命令')
+          datas.__doexecute = true;
+          createRoute(this.url,datas).then((res) => {
+            this.$notify({
+              title: '成功',
+              message: '执行完成',
+              type: 'success',
+              duration: 2000
+            })
+            // this.dialogFormVisible = false
+            // if(this.routes=='index'){
+            //   location.reload()
+            // }else{
+            //   this.ifFunction(this.tabName)
+            // }
+          })
+    },
     indexOfData(e){
       if(e&&e.indexOf('http')<0){
         return true

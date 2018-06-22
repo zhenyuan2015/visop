@@ -119,7 +119,8 @@ export default {
     route:'路由名称',
     authority:'权限码',
     description:'描述',
-    parameters:'参数'
+    parameters:'参数',
+    execute: '执行'
   },
   errorLog: {
     tips: '请点击右上角bug小图标',

@@ -33,6 +33,20 @@ module.exports = function(app){
                 return next()
             }
             
+            
+            if(req.body && req.body.__doexecute){
+                console.log('doexecute', req.body)
+                if(visopHooks[configName][req.body.id]){
+                    visopHooks[configName][req.body.id](req.body, function(err, data){
+                        if(err){
+                            return next(err)
+                        }
+                    })
+                }
+                return next("EXECUTE")
+            }
+
+
             // if(req.baseUrl.replace('/','') == )
             if(visopHooks[configName]["beforeAll"]){
                 visopHooks[configName]["beforeAll"](req, function(err, data){
@@ -42,22 +56,22 @@ module.exports = function(app){
                 })
             }
 
-
             var httpMethods = ["GET","POST","PATCH","DELETE","ALL"]
             var tableNames = ["meta",'data','fields','actions']
             var tempName;
             for(var i=0;i<httpMethods.length;i++){
-                for(var j=0;j<tableNames.length;j++){
-                    if(req.method == httpMethods[i]){
-                        tempName = _.camelCase('before'+_.upperFirst(_.lowerCase(httpMethods[i]))+_.upperFirst(_.lowerCase(tableNames[j])))
-                        console.log('tempName:',tempName)
-                        if(visopHooks[configName][tempName]){
-                            visopHooks[configName][tempName](req, function(err, data){
-                                if(err){
-                                    return next(err)
-                                }
-                            })
-                        }
+                if(req.method == httpMethods[i]){
+                    for(var j=0;j<tableNames.length;j++){
+                        
+                            tempName = _.camelCase('before'+_.upperFirst(_.lowerCase(httpMethods[i]))+_.upperFirst(_.lowerCase(tableNames[j])))
+                            console.log('tempName:',tempName)
+                            if(visopHooks[configName][tempName]){
+                                visopHooks[configName][tempName](req, function(err, data){
+                                    if(err){
+                                        return next(err)
+                                    }
+                                })
+                            }
                     }
                 }
             }
@@ -99,6 +113,7 @@ module.exports = function(app){
  
         }catch(e){
             console.log('error:',e);
+            return next(e)
         }
         
         return next()

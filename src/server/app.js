@@ -210,6 +210,9 @@ app.use(function(err, req, res, next) {
     if (err.name === 'ParamValidateError') {
         res.status(200).json(message('PARAM_ERROR', null, err));
     }
+    if(err == 'EXECUTE'){
+        res.status(200).json(message('SUCCESS', null, err,'execute success'));
+    }
     log.error(err);
     // res.status(200).json(message('ERROR', null, err));
 });
