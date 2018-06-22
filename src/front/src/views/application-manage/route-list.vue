@@ -21,7 +21,8 @@
       :formatter = "formatter"
       align="center">
         <template slot-scope="scope">
-          <span>{{scope.row[items.id]}}</span>
+          <span v-if="indexOfData(scope.row[items.id])">{{scope.row[items.id]}}</span>
+          <a v-else target="_blank" :href="scope.row[items.id]">{{scope.row[items.id]}}</a>
         </template>
       </el-table-column>
       <el-table-column align="center" :label="$t('table.actions')" width="230" class-name="small-padding fixed-width">
@@ -116,6 +117,13 @@ export default {
     console.log('router',this.routes)
   },
   methods: {
+    indexOfData(e){
+      if(e&&e.indexOf('http')<0){
+        return true
+      }else{
+        return false
+      }
+    },
     handleSizeChange(val){
       console.log('1')
       this.limit = val
