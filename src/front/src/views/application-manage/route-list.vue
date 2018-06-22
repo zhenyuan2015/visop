@@ -28,7 +28,7 @@
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="handleUpdate(scope.row,'updata')">{{$t('table.edit')}}</el-button>
           <el-button type="success" size="mini" @click="handleUpdate(scope.row,'copy')">{{$t('table.copy')}}</el-button>
-          <el-button v-if="scope.row.status!='delete'" size="mini" type="error" @click="handleModifyStatus(scope.row,'delete')">{{$t('table.delete')}}
+          <el-button v-if="scope.row.status!='delete'" size="mini" type="error" @click="handleModifyStatus(scope.$index,scope.row,'delete')">{{$t('table.delete')}}
           </el-button>
         </template>
       </el-table-column>
@@ -271,19 +271,27 @@ export default {
         this.listLoading = false
       })
     },
-    handleModifyStatus(row, status) {
-      // deleteRoute(this.url,row).then((res)=>{
-      //   this.$message({
-      //     message: '操作成功',
-      //     type: 'success'
-      //   })
-      //   row.status = status
-      //   if(this.routes=='index'){
-      //     location.reload()
-      //   }else{
-      //     this.ifFunction(this.tabName)
-      //   }
-      // })
+    handleModifyStatus(index,row, status) {
+      this.$confirm('确定要删除当前内容吗？', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                customClass:'confirm_box'
+            }).then(() => {
+              deleteRoute(this.url,row).then((res)=>{
+                this.$message({
+                  message: '操作成功',
+                  type: 'success'
+                })
+                row.status = status
+                if(this.routes=='index'){
+                  location.reload()
+                }else{
+                  this.ifFunction(this.tabName)
+                }
+              })
+            }).catch(() => {
+                // console.log('已取消删除操作。')
+            });
     },
     clearDialog(){
       Object.keys(this.temp).forEach(key=>{
