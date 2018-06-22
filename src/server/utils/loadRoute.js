@@ -2,6 +2,7 @@
 // 加载API模块
 var express = require('express');
 var url = require('url')
+var _ = require('lodash')
 // var invalidPackage = require('./invalidPackage')
 var setting = require('../config/setting');
 var path = require('path')
@@ -31,11 +32,41 @@ module.exports = function(app){
             if(!visopHooks[configName]){
                 return next()
             }
-        
+            
+            // if(req.baseUrl.replace('/','') == )
+            if(visopHooks[configName]["beforeAll"]){
+                visopHooks[configName]["beforeAll"](req, function(err, data){
+                    if(err){
+                        return next(err)
+                    }
+                })
+            }
+
+
+            var httpMethods = ["GET","POST","PATCH","DELETE","ALL"]
+            var tableNames = ["meta",'data','fields','actions']
+            var tempName;
+            for(var i=0;i<httpMethods.length;i++){
+                for(var j=0;j<tableNames.length;j++){
+                    if(req.method == httpMethods[i]){
+                        tempName = _.camelCase('before'+httpMethods[i]+tableNames[j])
+                        console.log('tempName:',tempName)
+                        if(visopHooks[configName][tempName]){
+                            visopHooks[configName][tempName](req, function(err, data){
+                                if(err){
+                                    return next(err)
+                                }
+                            })
+                        }
+                    }
+                }
+            }
+
             if(tableName != "data"){
                 // 只有操作data才触发钩子函数
                 return next()
             }
+
             if(req.method == "POST"){
                 // console.log('req.body', req.body, visopHooks[configName]["beforeAdd"])
                 if(visopHooks[configName]["beforeAdd"]){
@@ -64,14 +95,7 @@ module.exports = function(app){
                     })
                 }
             }
-            // if(req.baseUrl.replace('/','') == )
-            if(visopHooks[configName]["beforeAll"]){
-                visopHooks[configName]["beforeAll"](req, function(err, data){
-                    if(err){
-                        return next(err)
-                    }
-                })
-            }
+ 
  
         }catch(e){
             console.log('error:',e);
