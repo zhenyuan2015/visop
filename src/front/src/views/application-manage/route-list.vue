@@ -21,14 +21,15 @@
       :formatter = "formatter"
       align="center">
         <template slot-scope="scope">
-          <span>{{scope.row[items.id]}}</span>
+          <span v-if="indexOfData(scope.row[items.id])">{{scope.row[items.id]}}</span>
+          <a v-else target="_blank" :href="scope.row[items.id]">{{scope.row[items.id]}}</a>
         </template>
       </el-table-column>
       <el-table-column align="center" :label="$t('table.actions')" width="230" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button type="primary" size="mini" @click="handleUpdate(scope.row,'updata')">{{$t('table.edit')}}</el-button>
           <el-button type="success" size="mini" @click="handleUpdate(scope.row,'copy')">{{$t('table.copy')}}</el-button>
-          <el-button v-if="scope.row.status!='delete'" size="mini" type="error" @click="handleModifyStatus(scope.row,'delete')">{{$t('table.delete')}}
+          <el-button v-if="scope.row.status!='delete'" size="mini" type="error" @click="handleModifyStatus(scope.$index,scope.row,'delete')">{{$t('table.delete')}}
           </el-button>
         </template>
       </el-table-column>
@@ -102,6 +103,8 @@ export default {
   },
   watch:{
     $route(){
+      this.page = 1
+      this.limit = 10
       this.routes = this.$route.query.id
       this.tabName=="0"?this.url = '/'+this.routes+'/data':this.tabName=="1"?this.url = '/'+this.routes+'/fields':this.url = '/'+this.routes+'/meta'
       this.ifFunction(this.tabName)
@@ -114,6 +117,13 @@ export default {
     console.log('router',this.routes)
   },
   methods: {
+    indexOfData(e){
+      if(e&&e.indexOf('http')<0){
+        return true
+      }else{
+        return false
+      }
+    },
     handleSizeChange(val){
       console.log('1')
       this.limit = val
@@ -269,19 +279,27 @@ export default {
         this.listLoading = false
       })
     },
-    handleModifyStatus(row, status) {
-      deleteRoute(this.url,row).then((res)=>{
-        this.$message({
-          message: '操作成功',
-          type: 'success'
-        })
-        row.status = status
-        if(this.routes=='index'){
-          location.reload()
-        }else{
-          this.ifFunction(this.tabName)
-        }
-      })
+    handleModifyStatus(index,row, status) {
+      this.$confirm('确定要删除当前内容吗？', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                customClass:'confirm_box'
+            }).then(() => {
+              deleteRoute(this.url,row).then((res)=>{
+                this.$message({
+                  message: '操作成功',
+                  type: 'success'
+                })
+                row.status = status
+                if(this.routes=='index'){
+                  location.reload()
+                }else{
+                  this.ifFunction(this.tabName)
+                }
+              })
+            }).catch(() => {
+                // console.log('已取消删除操作。')
+            });
     },
     clearDialog(){
       Object.keys(this.temp).forEach(key=>{
