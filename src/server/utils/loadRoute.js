@@ -49,7 +49,7 @@ module.exports = function(app){
             for(var i=0;i<httpMethods.length;i++){
                 for(var j=0;j<tableNames.length;j++){
                     if(req.method == httpMethods[i]){
-                        tempName = _.camelCase('before'+httpMethods[i]+tableNames[j])
+                        tempName = _.camelCase('before'+_.upperFirst(_.lowerCase(httpMethods[i]))+_.upperFirst(_.lowerCase(tableNames[j])))
                         console.log('tempName:',tempName)
                         if(visopHooks[configName][tempName]){
                             visopHooks[configName][tempName](req, function(err, data){
