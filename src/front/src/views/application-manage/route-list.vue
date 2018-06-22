@@ -102,6 +102,8 @@ export default {
   },
   watch:{
     $route(){
+      this.page = 1
+      this.limit = 10
       this.routes = this.$route.query.id
       this.tabName=="0"?this.url = '/'+this.routes+'/data':this.tabName=="1"?this.url = '/'+this.routes+'/fields':this.url = '/'+this.routes+'/meta'
       this.ifFunction(this.tabName)
@@ -270,18 +272,18 @@ export default {
       })
     },
     handleModifyStatus(row, status) {
-      deleteRoute(this.url,row).then((res)=>{
-        this.$message({
-          message: '操作成功',
-          type: 'success'
-        })
-        row.status = status
-        if(this.routes=='index'){
-          location.reload()
-        }else{
-          this.ifFunction(this.tabName)
-        }
-      })
+      // deleteRoute(this.url,row).then((res)=>{
+      //   this.$message({
+      //     message: '操作成功',
+      //     type: 'success'
+      //   })
+      //   row.status = status
+      //   if(this.routes=='index'){
+      //     location.reload()
+      //   }else{
+      //     this.ifFunction(this.tabName)
+      //   }
+      // })
     },
     clearDialog(){
       Object.keys(this.temp).forEach(key=>{
