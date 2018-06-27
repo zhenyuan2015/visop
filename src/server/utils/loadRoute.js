@@ -6,6 +6,7 @@ var _ = require('lodash')
 // var invalidPackage = require('./invalidPackage')
 var setting = require('../config/setting');
 var path = require('path')
+var moment = require('moment')
 
 module.exports = function(app){
     router = express.Router();
@@ -25,7 +26,7 @@ module.exports = function(app){
         }
         // res.jsonp = res._jsonp
         try{
-            // console.log('before............', req.path,req.method)
+            // console.log('before............', req.path, req)
             var temp = parsePath(req);
             var configName = temp.configName;
             var tableName = temp.tableName;
@@ -33,7 +34,25 @@ module.exports = function(app){
                 return next()
             }
             
-            
+            if(req.body){
+                if(req.method == "POST"){
+                    req.body.createdAt = moment().format("YYYY-MM-DD HH:mm:ss")
+                    req.body.updatedAt = moment().format("YYYY-MM-DD HH:mm:ss")
+                }else{
+                    req.body.updatedAt = moment().format("YYYY-MM-DD HH:mm:ss")
+                }
+            }
+            if(req.method == "GET"){
+                if(req.query._order == null){
+                    // console.log('1111111111111')
+                    req.query._order = "desc,desc"
+                };
+                if(req.query._sort == null){
+                    // console.log('22222222222')
+                    req.query._sort = "updatedAt,createdAt"
+                };
+            }
+            // console.log('333333333333333', req.query)
             if(req.body && req.body.__doexecute){
                 console.log('doexecute', req.body)
                 if(visopHooks[configName][req.body.id]){
