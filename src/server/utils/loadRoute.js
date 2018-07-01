@@ -56,7 +56,7 @@ module.exports = function(app){
             if(req.body && req.body.__doexecute){
                 console.log('doexecute', req.body)
                 if(visopHooks[configName][req.body.id]){
-                    visopHooks[configName][req.body.id](req.body, function(err, data){
+                    visopHooks[configName][req.body.id](req, res, function(err, data){
                         if(err){
                             return next(err)
                         }

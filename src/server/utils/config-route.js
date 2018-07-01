@@ -14,6 +14,7 @@ var checkValidate = require('./checkValidate.js');
 var _ = require('lodash')
 // var checkLogin = require('./checkLogin').checkLogin; 
 var path = require('path')
+var fse = require('fs-extra')
 
 var jwtOptions = {
         secret: setting.secretToken,
@@ -72,6 +73,26 @@ module.exports = function(router){
        }
         
     })
+    // 加载用户自定义路由
+    var visopActionConfig = path.join(setting.CODE_PATH, 'visop', 'actions.json')
+    var visopActionJs = path.join(setting.CODE_PATH, 'visop', 'actions.js')
+    if(fse.existsSync(visopActionConfig) && fse.existsSync(visopActionJs)){
+        var actionConfig = require(visopActionConfig).data
+        var actionJs = require(visopActionJs)
+        for(var i=0;i<actionConfig.length;i++){
+            if(actionConfig[i].__visoproute){
+                try{
+                    console.log('add custom route:', actionConfig[i].id);
+                    router.get('/'+actionConfig[i].id, actionJs[actionConfig[i].id])
+                    router.post('/'+actionConfig[i].id, actionJs[actionConfig[i].id])
+                }catch(e){
+                    console.log(e)
+                }
+            }
+        }
+    }
+    
+
     // app.use(router);
     return router;
 };
