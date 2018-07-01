@@ -82,9 +82,12 @@ module.exports = function(router){
         for(var i=0;i<actionConfig.length;i++){
             if(actionConfig[i].__visoproute){
                 try{
-                    console.log('add custom route:', actionConfig[i].id);
-                    router.get('/'+actionConfig[i].id, actionJs[actionConfig[i].id])
-                    router.post('/'+actionConfig[i].id, actionJs[actionConfig[i].id])
+                    if(actionJs[actionConfig[i].id]){
+                        console.log('begin add custom route:', actionConfig[i].id);
+                        router.get('/'+actionConfig[i].id, actionJs[actionConfig[i].id])
+                        router.post('/'+actionConfig[i].id, actionJs[actionConfig[i].id])
+                        console.log('success add custom route:', actionConfig[i].id);
+                    }
                 }catch(e){
                     console.log(e)
                 }
