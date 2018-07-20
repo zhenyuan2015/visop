@@ -54,6 +54,7 @@ const permission = {
         let arr = res.data
         let obj = {}
         let index = null
+        let index1 = null
         return getAllRoutes('index','data').then(res1=>{
           new Promise(resolve => {
             const { roles } = data
@@ -72,23 +73,34 @@ const permission = {
                 },
                 children:[
                   // { path: 'element', component: _import('application-manage/route-list'), name: 'route-list', meta: { title: 'routeList', icon: 'table' }},
-                  { path: 'index', component: _import('application-manage/route-list'), name: 'route-index', meta: { title: 'routeIndex', icon: 'table' }},
+                  { 
+                    path: 'index', 
+                    component: _import('application-manage/route-list'), 
+                    name: 'route-index', 
+                    meta: { title: 'routeIndex', icon: 'table' }
+                  },
                 ]
               }
               accessedRouters.push(obj)
               index = getRoutes(accessedRouters,getValue(arr, 'id'))
               for(let i=0;i<res1.data.length;i++){
-                accessedRouters[index].children.push(
-                  { 
-                    path: res1.data[i].id, 
-                    component: _import('application-manage/route-list'), 
-                    name: res1.data[i].id,
-                    meta: { 
-                      title: res1.data[i].name, 
-                      icon: 'table' 
-                    }
-                  }
-                )
+                index1 = getRoutes(accessedRouters[index].children,getParent(res1.data))
+                console.log(index1,'index1')
+                let obj = { 
+                  path: res1.data[i].id, 
+                  component: _import('application-manage/route-list'), 
+                  name: res1.data[i].id,
+                  meta: { 
+                    title: res1.data[i].name, 
+                    icon: 'table' 
+                  },
+                  children:[]
+                }
+                if(index1&&index1>=0){
+                  accessedRouters[index].children[index1].children.push(obj)
+                }else{
+                  accessedRouters[index].children.push(obj)
+                }
               }
             } else {
               accessedRouters = filterAsyncRouter(asyncRouterMap, roles)
@@ -124,6 +136,16 @@ function getValue(arr,key){
   for(var i=0;i<arr.length;i++){
     if(arr[i].id == key){
       value = '/' + arr[i].value;
+      break;
+    }
+  }
+  return value;
+}
+function getParent(arr){
+  var value = null;
+  for(var i=0;i<arr.length;i++){
+    if(arr[i].parent){
+      value = arr[i].parent;
       break;
     }
   }
