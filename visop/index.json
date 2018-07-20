@@ -1,6 +1,12 @@
 {
   "meta": [
     {
+      "id": "id",
+      "value": "admin",
+      "description": "在页面显示的名称",
+      "type": "input"
+    },
+    {
       "id": "name",
       "value": "路由管理",
       "description": "在页面显示的名称",
@@ -50,91 +56,19 @@
   ],
   "data": [
     {
-      "id": "generateRoute",
-      "method": "POST",
-      "description": "生成路由",
-      "authority": "100000",
-      "controller": "api/generateRoute",
-      "action": "do",
-      "parameters": {
-        "config": {
-          "notEmpty": true,
-          "errorMessage": "config不能为1"
-        }
-      },
-      "test": "2",
-      "test1": {
-        "test": true
-      },
-      "ceshi": {
-        "config": "这里可以不填"
-      }
+      "id": "elements",
+      "name": "数据管理",
+      "description": "管理"
     },
     {
-      "id": "getAllRoutes",
-      "method": "GET,POST",
-      "description": "获取所有路由的配置",
-      "authority": "100000",
-      "controller": "api/getAllRoutes",
-      "action": "do",
-      "parameters": {
-        "config": {
-          "notEmpty": true,
-          "errorMessage": "config不能为空"
-        }
-      }
+      "id": "pagemanage",
+      "name": "页面管理",
+      "description": "管理touchui里的页面"
     },
     {
-      "id": "deleteRoute",
-      "method": "GET,POST",
-      "description": "增加路由",
-      "authority": "100000",
-      "controller": "api/deleteRoute",
-      "action": "do",
-      "parameters": {
-        "config": {
-          "notEmpty": true,
-          "errorMessage": "config不能为空"
-        }
-      }
-    },
-    {
-      "id": "generateRoute1",
-      "method": "GET,POST",
-      "description": "生成路由",
-      "authority": "100000",
-      "controller": "api/generateRoute",
-      "action": "do",
-      "parameters": {
-        "config": {
-          "notEmpty": true,
-          "errorMessage": "config不能为空"
-        }
-      }
-    },
-    {
-      "id": "generateRoute2",
-      "method": "GET",
-      "description": "生成路由122121212345",
-      "authority": "100000",
-      "controller": "api/generateRoute",
-      "action": "do",
-      "parameters": {
-        "config": {
-          "notEmpty": true,
-          "errorMessage": "config不能为空"
-        }
-      }
-    },
-    {
-      "id": "testdev",
-      "description": "测试接口",
-      "type": "",
-      "config": "",
-      "method": "GET",
-      "authority": "1000001",
-      "parameters": {},
-      "action": "do"
+      "id": "actions",
+      "name": "动作列表",
+      "description": "执行各种系统命令或nodejs脚本"
     }
   ]
 }
