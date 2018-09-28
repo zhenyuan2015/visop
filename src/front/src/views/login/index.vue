@@ -52,6 +52,8 @@ import { isvalidUsername } from '@/utils/validate'
 import LangSelect from '@/components/LangSelect'
 import SocialSign from './socialsignin'
 import { getAllRoutes } from '@/api/route'
+import { login } from '@/api/login'
+import { setToken } from '@/utils/auth'
 
 export default {
   components: { LangSelect, SocialSign },
@@ -73,12 +75,12 @@ export default {
     }
     return {
       loginForm: {
-        username: 'admin',
-        password: '1111111'
+        username: '',
+        password: ''
       },
       loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        // username: [{ required: true, trigger: 'blur', validator: validateUsername }],
+        // password: [{ required: true, trigger: 'blur', validator: validatePassword }]
       },
       passwordType: 'password',
       loading: false,
@@ -86,7 +88,7 @@ export default {
     }
   },
   mounted(){
-    this.handleLogin()
+    // this.handleLogin()
   },
   methods: {
     showPwd() {
@@ -110,11 +112,16 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
-          this.$store.dispatch('LoginByUsername', this.loginForm).then(() => {
+          login(this.loginForm).then((res) => {
             this.loading = false
-            getAllRoutes('index','meta').then(res => {
-              this.$router.push({ path: this.getValue(res.data,'id') + '/index?id=index' })
-            })
+            if(res){
+              setToken('admin')
+              getAllRoutes('index','meta').then(res => {
+                this.$router.push({ path: this.getValue(res.data,'id') + '/index?id=index' })
+              })
+            }else{
+              this.$message('用户名密码有误')
+            }
           }).catch(() => {
             this.loading = false
           })
