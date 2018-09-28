@@ -61,9 +61,9 @@
       "description": "管理"
     },
     {
-      "id": "pagemanage",
-      "name": "页面管理",
-      "description": "管理touchui里的页面"
+      "id": "login",
+      "name": "登录管理",
+      "description": ""
     },
     {
       "id": "actions",

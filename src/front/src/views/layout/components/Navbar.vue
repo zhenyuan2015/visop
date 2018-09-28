@@ -33,9 +33,9 @@
               {{$t('navbar.github')}}
             </el-dropdown-item>
           </a>
-          <!-- <el-dropdown-item divided>
+          <el-dropdown-item divided>
             <span @click="logout" style="display:block;">{{$t('navbar.logOut')}}</span>
-          </el-dropdown-item> -->
+          </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
