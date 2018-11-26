@@ -37,10 +37,7 @@
       "description": "id",
       "type": "input",
       "config": {},
-      "show":{
-        "0":true,
-        "1":false
-      }
+      "show":true
     },
     {
       "id": "name",
