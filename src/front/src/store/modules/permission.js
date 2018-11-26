@@ -106,7 +106,7 @@ const permission = {
                       component: _import('application-manage/route-list'), 
                       name: res3.data[i].id,
                       meta: { 
-                        title: res3.data[i].name, 
+                        title: res3.data[i].description, 
                         icon: 'table',
                       },
                     }
