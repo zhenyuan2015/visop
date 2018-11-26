@@ -1,0 +1,188 @@
+{
+  "meta": [
+    {
+      "id": "id",
+      "value": "/application-manage",
+      "description": "在页面显示的名称",
+      "type": "input"
+    },
+    {
+      "id": "name",
+      "value": "项目",
+      "description": "在页面显示的名称",
+      "type": "input"
+    },
+    {
+      "id": "order",
+      "value": 1,
+      "description": "控制在页面显示的顺序",
+      "type": "input"
+    },
+    {
+      "id": "usage",
+      "value": "服务路由管理",
+      "description": "描述这个配置文件的作用",
+      "type": "input"
+    },
+    {
+      "id": "key",
+      "value": "id",
+      "description": "描述data数据部分的主键字段名称",
+      "type": "input"
+    }
+  ],
+  "fields": [
+    {
+      "id": "id",
+      "description": "id",
+      "type": "input",
+      "config": {}
+    },
+    {
+      "id": "name",
+      "description": "名称",
+      "type": "input",
+      "config": {
+        "0": "GET",
+        "1": "POST"
+      },
+      "value": "项目"
+    },
+    {
+      "id": "description",
+      "description": "描述",
+      "type": "input",
+      "config": {}
+    },
+    {
+      "id": "__visopexecute",
+      "description": "控制是否打开执行按钮",
+      "type": "input",
+      "config": {}
+    },
+    {
+      "id": "value",
+      "name": "",
+      "description": "动作的参数",
+      "__visopexecute": "",
+      "type": "json",
+      "config": {}
+    },
+    {
+      "id": "__visoproute",
+      "description": "增加一个路由，可以外部访问",
+      "type": "select",
+      "config": [
+        "true",
+        "false"
+      ],
+      "createdAt": "2018-07-01 14:11:22",
+      "updatedAt": "2018-07-01 14:12:20"
+    }
+  ],
+  "data": [
+    {
+      "id": "restart",
+      "name": "重启后台进程",
+      "description": "增加项目，或者遇到数据不同步的情况，可以重启解决",
+      "__visopexecute": true,
+      "__fromElement": {
+        "id": "elements",
+        "name": "数据管理",
+        "description": "管理"
+      },
+      "value": {
+        "appname": "yunsiweiphone"
+      }
+    },
+    {
+      "id": "syncgit",
+      "name": "同步git仓库",
+      "description": "执行git add . && git commit && git pull && git push && pm2 restart appname",
+      "__visopexecute": true,
+      "__fromElement": {
+        "id": "restart",
+        "name": "数据管理",
+        "description": "管理",
+        "__visopexecute": true,
+        "value": {
+          "appname": "yunsiweiphone"
+        }
+      },
+      "value": {
+        "appname": "yunsiweiphone"
+      },
+      "__visoproute": false,
+      "updatedAt": "2018-07-01 14:20:40"
+    },
+    {
+      "id": "syncgitAndRestart",
+      "name": "同步git仓库并重启",
+      "description": "执行git add . && git commit && git pull && git push",
+      "__visopexecute": true,
+      "__fromElement": {
+        "id": "syncgit",
+        "name": "同步git仓库",
+        "description": "执行git add . && git commit && git pull && git push",
+        "__visopexecute": true,
+        "value": {
+          "appname": "yunsiweiphone"
+        },
+        "__visoproute": false,
+        "updatedAt": "2018-07-01 14:14:47"
+      },
+      "value": {
+        "appname": "yunsiweiphone"
+      },
+      "__visoproute": true,
+      "updatedAt": "2018-07-01 14:28:30",
+      "createdAt": "2018-07-01 14:20:11"
+    },
+    {
+      "id": "restartapp",
+      "name": "重启后台应用进程",
+      "description": "重启node服务",
+      "__visopexecute": true,
+      "__fromElement": {
+        "id": "restart",
+        "name": "重启后台进程",
+        "description": "增加项目，或者遇到数据不同步的情况，可以重启解决",
+        "__visopexecute": true,
+        "value": {
+          "appname": "yunsiweiphone"
+        }
+      },
+      "value": {
+        "appname": "yunsiweiphone"
+      },
+      "createdAt": "2018-07-02 09:54:10",
+      "updatedAt": "2018-07-02 09:54:10"
+    },
+    {
+      "id": "syncRouter",
+      "authority": "",
+      "parameters": "",
+      "status": "",
+      "output": "",
+      "name": "同步路由",
+      "description": "同步路由文件",
+      "createdAt": "2018-07-05 09:47:21",
+      "updatedAt": "2018-07-05 09:47:34",
+      "__visopexecute": true
+    },
+    {
+      "id": "loadAll",
+      "authority": "",
+      "parameters": "",
+      "status": "",
+      "output": "",
+      "name": "根据路由重置数据",
+      "description": "根据路由重置数据",
+      "createdAt": "2018-10-11 14:14:09",
+      "updatedAt": "2018-10-11 14:14:09",
+      "__visopexecute": true,
+      "value": {},
+      "__visoproute": false
+    }
+  ]
+}

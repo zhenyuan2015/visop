@@ -1,0 +1,74 @@
+{
+  "meta": [
+    {
+      "id": "id",
+      "value": "admin",
+      "description": "在页面显示的名称",
+      "type": "input"
+    },
+    {
+      "id": "name",
+      "value": "路由管理",
+      "description": "在页面显示的名称",
+      "type": "input"
+    },
+    {
+      "id": "order",
+      "value": 1,
+      "description": "控制在页面显示的顺序",
+      "type": "input"
+    },
+    {
+      "id": "usage",
+      "value": "服务路由管理",
+      "description": "描述这个配置文件的作用",
+      "type": "input"
+    },
+    {
+      "id": "key",
+      "value": "id",
+      "description": "描述data数据部分的主键字段名称",
+      "type": "input"
+    }
+  ],
+  "fields": [
+    {
+      "id": "id",
+      "description": "id",
+      "type": "input",
+      "config": {}
+    },
+    {
+      "id": "name",
+      "description": "名称",
+      "type": "select",
+      "config": {
+        "0": "GET",
+        "1": "POST"
+      }
+    },
+    {
+      "id": "description",
+      "description": "描述",
+      "type": "input",
+      "config": {}
+    }
+  ],
+  "data": [
+    {
+      "id": "elements",
+      "name": "数据管理",
+      "description": "管理"
+    },
+    {
+      "id": "login",
+      "name": "登录管理",
+      "description": ""
+    },
+    {
+      "id": "actions",
+      "name": "动作列表",
+      "description": "执行各种系统命令或nodejs脚本"
+    }
+  ]
+}
