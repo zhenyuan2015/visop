@@ -49,69 +49,84 @@ const permission = {
     }
   },
   actions: {
-    GenerateRoutes({ commit }, data) {
-      return getAllRoutes('index','meta').then(res => {
-        let arr = res.data
-        let obj = {}
-        let index = null
-        let index1 = null
-        return getAllRoutes('index','data').then(res1=>{
-          new Promise(resolve => {
-            const { roles } = data
-            let accessedRouters
-            if (roles.indexOf('admin') >= 0) {
-              accessedRouters = asyncRouterMap
-              
-              // import('@/views/' + file + '.vue')
-              obj = { 
-                path: getValue(arr, 'id'), 
-                component: Layout, 
-                name: getValue(arr, 'name'),
+    async GenerateRoutes({ commit }, data) {
+      var res =  await getAllRoutes('index','meta')//获取meta配置里面的父路由信息
+      let arr = res.data
+      let obj = {}
+      let index = null
+      let index1 = null
+      var res1= await getAllRoutes('index','data')//获取data 子路由信息
+      const { roles } = data
+      let accessedRouters
+      if (roles.indexOf('admin') >= 0) {
+        accessedRouters = asyncRouterMap
+        obj = { 
+          path: getValue(arr, 'id'), 
+          component: Layout, 
+          name: getValue(arr, 'name'),
+          meta: { 
+            title: getValue(arr, 'name').replace('/',''), 
+            icon: 'table' 
+          },
+          children:[
+            { 
+              path: 'index', 
+              component: _import('application-manage/route-list'), 
+              name: getValue(arr, 'name'), 
+              meta: { title: getValue(arr, 'name').replace('/',''), icon: 'table',showMenu:false }
+            },
+          ]
+        }
+        accessedRouters.push(obj)
+        index = getRoutes(accessedRouters,getValue(arr, 'id'))
+        for(let i=0;i<res1.data.length;i++){
+          let res2 = await getAllRoutes(res1.data[i].id,'meta'),
+              res3 = null, //遍历子路由内的meta
+              child = null,
+              children = []
+              // index1 = getRoutes(accessedRouters[index].children,getParent(res1.data))
+              let obj = { 
+                path: res1.data[i].id, 
+                component: _import('application-manage/route-list'), 
+                name: res1.data[i].id,
                 meta: { 
-                  title: getValue(arr, 'name').replace('/',''), 
-                  icon: 'table' 
+                  title: res1.data[i].name, 
+                  icon: 'table',
+                  showMenu:getShowMenu(res2.data, 'showMenu')
                 },
-                children:[
-                  // { path: 'element', component: _import('application-manage/route-list'), name: 'route-list', meta: { title: 'routeList', icon: 'table' }},
-                  { 
-                    path: 'index', 
-                    component: _import('application-manage/route-list'), 
-                    name: 'route-index', 
-                    meta: { title: 'routeIndex', icon: 'table' }
-                  },
-                ]
+                children:[]
               }
-              accessedRouters.push(obj)
-              index = getRoutes(accessedRouters,getValue(arr, 'id'))
-              for(let i=0;i<res1.data.length;i++){
-                index1 = getRoutes(accessedRouters[index].children,getParent(res1.data))
-                console.log(index1,'index1')
-                let obj = { 
-                  path: res1.data[i].id, 
-                  component: _import('application-manage/route-list'), 
-                  name: res1.data[i].id,
-                  meta: { 
-                    title: res1.data[i].name, 
-                    icon: 'table' 
-                  },
-                  children:[]
-                }
-                if(index1&&index1>=0){
-                  accessedRouters[index].children[index1].children.push(obj)
-                }else{
-                  accessedRouters[index].children.push(obj)
+              if(getShowMenu(res2.data, 'showMenu')=='true'){
+                res3 = await getAllRoutes(res1.data[i].id,'data') //如果showMenu是true  遍历相应子路由的data内容注册到子路由
+                if(res3&&res3.data.length>0){
+                  for(let i = 0;i<res3.data.length;i++){
+                    child = {
+                      path: res3.data[i].id, 
+                      component: _import('application-manage/route-list'), 
+                      name: res3.data[i].id,
+                      meta: { 
+                        title: res3.data[i].name, 
+                        icon: 'table',
+                      },
+                    }
+                    children.push(child)
+                  }
+                  obj.children = children
                 }
               }
-            } else {
-              accessedRouters = filterAsyncRouter(asyncRouterMap, roles)
-            }
-            console.log('GenerateRoutes',accessedRouters)
-            commit('SET_ROUTERS', accessedRouters)
-            resolve()
-          })
-        })
-      })
-      
+              console.log(res3,'res3')
+              // if(index1&&index1>=0){
+          //   accessedRouters[index].children[index1].children.push(obj)
+          // }else{
+            accessedRouters[index].children.push(obj)
+          // }
+        }
+      } else {
+        accessedRouters = filterAsyncRouter(asyncRouterMap, roles)
+      }
+      console.log('GenerateRoutes',accessedRouters)
+      commit('SET_ROUTERS', accessedRouters)
+
     },
     addRoute({ commit }, data) {
       return new Promise(resolve => {
@@ -140,6 +155,16 @@ function getValue(arr,key){
     }
   }
   return value;
+}
+function getShowMenu(arr,key){
+  var value = null;
+  for(var i=0;i<arr.length;i++){
+    if(arr[i].id == key){
+      value = arr[i].value;
+      break;
+    }
+  }
+  return value ==='true'
 }
 function getParent(arr){
   var value = null;
