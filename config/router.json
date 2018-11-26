@@ -1,0 +1,12 @@
+{
+    "uploadImage": {
+        "route": "iresservice/upload",
+        "method": "get",
+        "description": "上传图片",
+        "authority": 1,
+        "controller": "api/uploadImage",
+        "action": "do",
+        "status": 1,
+        "parameters": {}
+    }
+}
