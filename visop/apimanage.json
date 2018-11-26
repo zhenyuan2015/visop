@@ -180,6 +180,28 @@
       "createdAt": "2018-11-22 09:53:23",
       "updatedAt": "2018-11-26 15:08:44",
       "show": "是"
+    },
+    {
+      "id": "templateRouter",
+      "route": "",
+      "description": "模板路由",
+      "type": "select",
+      "config": {
+        "0": "route-list",
+        "1": "route-detail"
+      },
+      "updatedAt": "2018-11-26 16:03:57",
+      "method": "",
+      "authority": "",
+      "parameters": "",
+      "status": "",
+      "output": "",
+      "tags": "",
+      "service": "",
+      "username": "",
+      "createdAt": "2018-11-26 16:03:57",
+      "path": "",
+      "show": "是"
     }
   ],
   "data": [
