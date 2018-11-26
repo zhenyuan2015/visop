@@ -249,8 +249,8 @@ export default {
           "description": "是否显示此列",
           "type": "select",
           "config": {
-            "0":true,
-            "1": false,
+            "0":"true",
+            "1": "false",
           }
         },
         {
