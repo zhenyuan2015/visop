@@ -96,7 +96,7 @@ const permission = {
                 },
                 children:[]
               }
-              if(getShowMenu(res2.data, 'showMenu')=='true'){
+              if(getShowMenu(res2.data, 'showMenu')==true){
                 res3 = await getAllRoutes(res1.data[i].id,'data') //如果showMenu是true  遍历相应子路由的data内容注册到子路由
                 if(res3&&res3.data.length>0){
                   for(let i = 0;i<res3.data.length;i++){
