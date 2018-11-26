@@ -36,7 +36,11 @@
       "id": "id",
       "description": "id",
       "type": "input",
-      "config": {}
+      "config": {},
+      "show":{
+        "0":true,
+        "1":false
+      }
     },
     {
       "id": "name",
