@@ -30,14 +30,14 @@
 
     </template> -->
     <template v-for="(item) in routes" v-if="!item.hidden">
-      <router-link v-for="items in item.children" :to="item.path + '/' +items.path+'?id='+items.path" :key="items.name" v-if="items.meta.showMenu">
+      <router-link v-for="items in item.children" :to="item.path + '/' +items.path+'?id='+items.path" :key="items.name" v-if="!items.meta.showMenu">
           <el-menu-item :index="items.path+'/'+items.path">
           <svg-icon v-if="items.meta&&items.meta.icon" :icon-class="items.meta.icon"></svg-icon>
           <span v-if="items.meta&&items.meta.title" slot="title">{{generateTitle(items.meta.title)}}</span>
         </el-menu-item>
       </router-link>
 
-      <el-submenu :index="items.path+'/'+items.path" v-else-if="!items.meta.showMenu" :key="item.meta.name">
+      <el-submenu :index="items.path+'/'+items.path" v-else-if="items.meta.showMenu" :key="item.meta.name">
         <template slot="title">
           <svg-icon v-if="items.meta&&items.meta.icon" :icon-class="items.meta.icon"></svg-icon>
           <span>{{items.meta.title}}</span>
