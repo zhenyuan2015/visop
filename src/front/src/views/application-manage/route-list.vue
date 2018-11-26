@@ -246,13 +246,11 @@ export default {
         },
         {
           "id": "show",
-          "description": "类型",
+          "description": "是否显示此列",
           "type": "select",
           "config": {
-            "0":"input",
-            "1": "select",
-            "2": "textarea",
-            "3": "json",
+            "0":true,
+            "1": false,
           }
         },
         {
