@@ -37,7 +37,8 @@
       "description": "id",
       "type": "input",
       "config": {},
-      "show": true
+      "show": "是",
+      "updatedAt": "2018-11-26 14:17:50"
     },
     {
       "id": "name",
