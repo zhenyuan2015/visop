@@ -96,6 +96,7 @@ const permission = {
                 },
                 children:[]
               }
+              console.log('showMenu',getShowMenu(res2.data, 'showMenu'))
               if(getShowMenu(res2.data, 'showMenu')==true){
                 res3 = await getAllRoutes(res1.data[i].id,'data') //如果showMenu是true  遍历相应子路由的data内容注册到子路由
                 if(res3&&res3.data.length>0){
@@ -114,7 +115,7 @@ const permission = {
                   obj.children = children
                 }
               }
-              console.log(res3,'res3')
+              // console.log(res3,'res3')
               // if(index1&&index1>=0){
           //   accessedRouters[index].children[index1].children.push(obj)
           // }else{
