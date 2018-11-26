@@ -40,7 +40,7 @@
       <el-submenu :index="items.path+'/'+items.path" v-else-if="!items.meta.showMenu" :key="item.meta.name">
         <template slot="title">
           <svg-icon v-if="items.meta&&items.meta.icon" :icon-class="items.meta.icon"></svg-icon>
-          <span>{{items.meta.title}}</span>
+          <span>{{items}}</span>
         </template>
           <router-link :to="item.path + '/' +items.path+'?id='+items.path" :key="items.name">
             <el-menu-item :index="items.path+'/'+items.path">
