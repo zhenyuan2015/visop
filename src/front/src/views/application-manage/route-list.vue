@@ -245,6 +245,17 @@ export default {
           }
         },
         {
+          "id": "show",
+          "description": "类型",
+          "type": "select",
+          "config": {
+            "0":"input",
+            "1": "select",
+            "2": "textarea",
+            "3": "json",
+          }
+        },
+        {
           "id": "config",
           "description": "参数",
           "type":"textarea",
