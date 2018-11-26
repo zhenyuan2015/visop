@@ -13,13 +13,14 @@
     <el-table :key='tableKey' :data="list.data" v-loading="listLoading" element-loading-text="给我一点时间" border fit highlight-current-row
       style="width: 100%">
       <el-table-column
-      v-for="(items,index) in list.header" 
-      :key="index"
-      :label=items.description
-      sortable
-      :show-overflow-tooltip="true"
-      :formatter = "formatter"
-      align="center">
+        v-for="(items,index) in list.header" 
+        :key="index"
+        :label=items.description
+        sortable
+        :show-overflow-tooltip="true"
+        :formatter = "formatter"
+        align="center"
+        v-if="!items.show||items.show=='是'">
         <template slot-scope="scope">
           <span v-if="indexOfData(scope.row[items.id])">{{scope.row[items.id]}}</span>
           <a v-else target="_blank" :href="scope.row[items.id]">{{scope.row[items.id]}}</a>
@@ -249,8 +250,8 @@ export default {
           "description": "是否显示此列",
           "type": "select",
           "config": {
-            "0":"true",
-            "1": "false",
+            "0":"是",
+            "1": "否",
           }
         },
         {
