@@ -37,7 +37,7 @@
       "description": "id",
       "type": "input",
       "config": {},
-      "show":true
+      "show": true
     },
     {
       "id": "name",
@@ -77,9 +77,9 @@
         "true",
         "false"
       ],
-      "show":true,
+      "show": true,
       "createdAt": "2018-07-01 14:11:22",
-      "updatedAt": "2018-07-01 14:12:20"
+      "updatedAt": "2018-11-26 14:10:38"
     }
   ],
   "data": [
