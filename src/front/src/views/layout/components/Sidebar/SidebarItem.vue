@@ -51,7 +51,7 @@
           <router-link v-for="(items1) in items.children" :to="items.path + '/' +items1.path+'?id='+items1.path" :key="items1.name">
             <el-menu-item :index="items1.path+'/'+items1.path">
               <svg-icon v-if="items1.meta&&items1.meta.icon" :icon-class="items1.meta.icon"></svg-icon>
-              <span v-if="items1.name" slot="title">{{items1.name}}</span>
+              <span v-if="items1.meta.title" slot="title">{{items1.meta.title}}</span>
             </el-menu-item>
           </router-link>
       </el-submenu>
