@@ -14,7 +14,7 @@ exports.do = function(req, res, next) {
     // https://github.com/chriso/validator.js
     
     req.check(
-      {}
+      "{}"
     );
 
     var errors = req.validationErrors();
