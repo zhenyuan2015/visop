@@ -95,7 +95,7 @@ const permission = {
                 },
                 children:[]
               }
-              console.log('showMenu',getShowMenu(res2.data, 'showMenu'))
+              // console.log('showMenu',getShowMenu(res2.data, 'showMenu'))
               if(getShowMenu(res2.data, 'showMenu')){
                 obj.component = _import('application-manage/route-view')
                 if(res3&&res3.data.length>0){
@@ -136,7 +136,7 @@ const permission = {
       } else {
         accessedRouters = filterAsyncRouter(asyncRouterMap, roles)
       }
-      console.log('GenerateRoutes',accessedRouters)
+      // console.log('GenerateRoutes',accessedRouters)
       commit('SET_ROUTERS', accessedRouters)
 
     },

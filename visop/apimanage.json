@@ -211,7 +211,7 @@
       "description": "上传图片",
       "type": "",
       "config": "",
-      "updatedAt": "2018-11-26 16:04:31",
+      "updatedAt": "2018-11-27 13:38:13",
       "method": "POST",
       "authority": 1,
       "parameters": {},

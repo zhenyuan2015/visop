@@ -25,3 +25,11 @@
 //     }
   }
 </script>
+<style lang="scss">
+.router-link-exact-active{
+  li{
+    padding-left: 20px; color: rgb(64, 158, 255) !important;
+  }
+}
+</style>
+

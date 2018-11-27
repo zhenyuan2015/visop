@@ -346,11 +346,11 @@ export default {
                   type: 'success'
                 })
                 row.status = status
-                if(this.routes=='index'){
+                // if(this.routes=='index'){
                   location.reload()
-                }else{
-                  this.ifFunction(this.tabName)
-                }
+                // }else{
+                //   this.ifFunction(this.tabName)
+                // }
               })
             }).catch(() => {
                 // console.log('已取消删除操作。')
@@ -409,11 +409,11 @@ export default {
               duration: 2000
             })
             this.dialogFormVisible = false
-            if(this.routes=='index'){
+            // if(this.routes=='index'){
               location.reload()
-            }else{
-              this.ifFunction(this.tabName)
-            }
+            // }else{
+            //   this.ifFunction(this.tabName)
+            // }
           })
         }
       })
@@ -482,11 +482,11 @@ export default {
                 duration: 2000
               })
               this.dialogFormVisible = false
-              if(this.routes=='index'){
+              // if(this.routes=='index'){
                 location.reload()
-              }else{
-                this.ifFunction(this.tabName)
-              }
+              // }else{
+              //   this.ifFunction(this.tabName)
+              // }
             })
           }else{
             // if(this.tabName=='0'){
@@ -528,11 +528,11 @@ export default {
                 duration: 2000
               })
               this.dialogFormVisible = false
-              if(this.routes=='index'){
+              // if(this.routes=='index'){
                 location.reload()
-              }else{
-                this.ifFunction(this.tabName)
-              }
+              // }else{
+              //   this.ifFunction(this.tabName)
+              // }
 
             })
           }
