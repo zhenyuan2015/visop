@@ -104,7 +104,7 @@ const permission = {
                     console.log(res3.data[i].templateRouter,'template')
                     child = {
                       path: res3.data[i].id, 
-                      component: _import('application-manage/'+ res3.data[i].templateRouter+''), 
+                      component: _import('application-manage/route-detail'), 
                       name: res3.data[i].id,
                       meta: { 
                         title: res3.data[i].description, 
