@@ -120,6 +120,7 @@ const permission = {
               // if(index1&&index1>=0){
           //   accessedRouters[index].children[index1].children.push(obj)
           // }else{
+            console.log(obj,'obj')
             accessedRouters[index].children.push(obj)
           // }
         }
