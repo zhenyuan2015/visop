@@ -81,13 +81,12 @@ const permission = {
         index = getRoutes(accessedRouters,getValue(arr, 'id'))
         for(let i=0;i<res1.data.length;i++){
           let res2 = await getAllRoutes(res1.data[i].id,'meta'),
-              res3 = null, //遍历子路由内的meta
+              res3 = await getAllRoutes(res1.data[i].id,'data') //如果showMenu是true  遍历相应子路由的data内容注册到子路由, //遍历子路由内的meta
               child = null,
               children = []
               // index1 = getRoutes(accessedRouters[index].children,getParent(res1.data))
               let obj = { 
                 path: res1.data[i].id, 
-                component: _import('application-manage/route-list'), 
                 name: res1.data[i].id,
                 meta: { 
                   title: res1.data[i].name, 
@@ -98,7 +97,6 @@ const permission = {
               }
               console.log('showMenu',getShowMenu(res2.data, 'showMenu'))
               if(getShowMenu(res2.data, 'showMenu')){
-                res3 = await getAllRoutes(res1.data[i].id,'data') //如果showMenu是true  遍历相应子路由的data内容注册到子路由
                 if(res3&&res3.data.length>0){
                   for(let i = 0;i<res3.data.length;i++){
                     child = {
