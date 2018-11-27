@@ -97,6 +97,7 @@ const permission = {
               }
               console.log('showMenu',getShowMenu(res2.data, 'showMenu'))
               if(getShowMenu(res2.data, 'showMenu')){
+                obj.component = _import('application-manage/route-view')
                 if(res3&&res3.data.length>0){
                   for(let i = 0;i<res3.data.length;i++){
                     child = {
@@ -112,6 +113,8 @@ const permission = {
                   }
                   obj.children = children
                 }
+              }else{
+                obj.component = _import('application-manage/route-list')
               }
               // console.log(res3,'res3')
               // if(index1&&index1>=0){
