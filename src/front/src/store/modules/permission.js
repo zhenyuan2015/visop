@@ -96,15 +96,14 @@ const permission = {
                 },
                 children:[]
               }
-              // console.log('showMenu',getShowMenu(res2.data, 'showMenu'))
+              console.log('showMenu',getShowMenu(res2.data, 'showMenu'))
               if(getShowMenu(res2.data, 'showMenu')){
                 res3 = await getAllRoutes(res1.data[i].id,'data') //如果showMenu是true  遍历相应子路由的data内容注册到子路由
                 if(res3&&res3.data.length>0){
                   for(let i = 0;i<res3.data.length;i++){
-                    console.log(res3.data[i].templateRouter,'template')
                     child = {
                       path: res3.data[i].id, 
-                      component: _import('application-manage/'+ res3.data[i].templateRouter+''), 
+                      component: _import('application-manage/' + res3.data[i].templateRouter||'route-list'), 
                       name: res3.data[i].id,
                       meta: { 
                         title: res3.data[i].description, 
@@ -120,7 +119,6 @@ const permission = {
               // if(index1&&index1>=0){
           //   accessedRouters[index].children[index1].children.push(obj)
           // }else{
-            console.log(obj,'obj')
             accessedRouters[index].children.push(obj)
           // }
         }
