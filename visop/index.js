@@ -11,6 +11,7 @@ const replace = require('replace-in-file'); // 用来做替文本字符串替换
 var BASE_PATH = path.resolve(path.join(__dirname, '..')); // 代码所在根目录
 var CURRENT_PATH = __dirname; // 当前文件所在目录
 
+
 exports.beforeAdd = function(data, callback) {
     console.log('beforeAdd:', data);
     addElement(data)
@@ -31,13 +32,35 @@ exports.beforeDelete = function(id, data, callback) {
 
 exports.beforeAll = function(){
     console.log('beforeAll')
+    gitPull()
 }
+
+exports.afterAdd = function(){
+
+}
+
+exports.afterAll = function(req,callback){
+  
+  console.log('afterAll',req.method)
+  if(req.method == "GET"){
+    return;
+  }
+  if(req.method == "POST"){
+    gitPush()
+    callback();
+    setTimeout(function(){
+      restart()
+    },1000)
+  }
+}
+
+
 
 var addElement= function(config){
   console.log('add element with data:',config, ' you can achieve this function with any program language you familiar with');
   
   var sourceFile, targetFile
-  if(connfig.__fromElement){
+  if(config.__fromElement){
     // __fromElement 执行复制的操作
     sourceFile = path.join(CURRENT_PATH, config.__fromElement.id+'.js');
     targetFile =  path.join(CURRENT_PATH,  config.id+'.js');
@@ -103,5 +126,34 @@ var deleteElement = function(config){
       fs.moveSync(path.join(CURRENT_PATH,  config.id+".json"), path.join(CURRENT_PATH,  "_"+ config.id+".json"), {overwrite: true})
       fs.moveSync(path.join(CURRENT_PATH,  config.id), path.join(CURRENT_PATH,  "_"+ config.id), {overwrite: true})
       console.log('delete route '+routeName+' success');
+  }
+  
+  
+  function gitPull(){
+    shellCmd = `sh ${CURRENT_PATH}/gitpull.sh ${BASE_PATH}`;
+    shellResult = shell.exec(shellCmd);
+    // if(shellResult.code != 0){
+    //   process.exit(shellResult.code)
+    // }
+  }
+
+  function gitPush(){
+    shellCmd = `sh ${CURRENT_PATH}/gitpush.sh ${BASE_PATH}`;
+    shellResult = shell.exec(shellCmd);
+    // if(shellResult.code != 0){
+    //   process.exit(shellResult.code)
+    // }
+  }
+
+ var restart = exports.restart = function(data){
+    if(process.platform == 'win32'){
+      console.log('win32 restart')
+      shellCmd = `visop start -f -c ${BASE_PATH} -P `+process.env.PORT;
+      shellResult = shell.exec(shellCmd);
+    }else{
+      console.log('linux restart,', data)
+      shellCmd = `pm2 restart ${process.env.name}`;
+      shellResult = shell.exec(shellCmd);
+    }
   }
   

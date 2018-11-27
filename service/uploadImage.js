@@ -2,8 +2,8 @@
 
 var mysql = require('../utils/mysql')
 var returnFactory = require('../utils/returnFactory');
-// var [tableName]Dao = require('../dao/[tableName]');  // 需要修改为正确的dao层
-var [tableName]Dao = requireDao('[tableName]');  // 需要修改为正确的dao层
+// var userDao = require('../dao/user');  // 需要修改为正确的dao层
+var userDao = requireDao('user');  // 需要修改为正确的dao层
 
 exports.do = function(req, res, callback) {
     // var userName = req.param("name")||"";
@@ -17,7 +17,7 @@ exports.do = function(req, res, callback) {
         message:null
     }
     return callback(result)
-    [tableName]Dao.queryById(params, function(err, rows){
+    userDao.queryById(params, function(err, rows){
         if(!err){
             result.returnValue = rows;
             return callback(result)

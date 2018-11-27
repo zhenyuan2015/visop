@@ -1,0 +1,228 @@
+{
+  "meta": [
+    {
+      "id": "name",
+      "value": "路由管理",
+      "description": "在页面显示的名称",
+      "type": "input"
+    },
+    {
+      "id": "order",
+      "value": 1,
+      "description": "控制在页面显示的顺序",
+      "type": "input"
+    },
+    {
+      "id": "usage",
+      "value": "服务路由管理",
+      "description": "描述这个配置文件的作用",
+      "type": "input"
+    },
+    {
+      "id": "apidoc",
+      "description": "接口文档地址",
+      "type": "",
+      "config": "",
+      "value": "",
+      "updatedAt": "2018-11-22 16:20:19"
+    },
+    {
+      "id": "logaddress",
+      "method": "",
+      "authority": "",
+      "description": "visop在线日志地址",
+      "parameters": "",
+      "__fromElement": "",
+      "status": "",
+      "value": "",
+      "updatedAt": "2018-07-01 08:29:38"
+    },
+    {
+      "id": "showMenu",
+      "value": true,
+      "createdAt": "2018-11-26 11:31:09",
+      "updatedAt": "2018-11-26 11:31:09"
+    }
+  ],
+  "fields": [
+    {
+      "id": "id",
+      "description": "路由",
+      "type": "input",
+      "config": {}
+    },
+    {
+      "id": "method",
+      "description": "请求方法",
+      "type": "select",
+      "config": {
+        "0": "GET",
+        "1": "POST"
+      }
+    },
+    {
+      "id": "authority",
+      "description": "权限码",
+      "type": "input",
+      "config": {}
+    },
+    {
+      "id": "parameters",
+      "description": "参数",
+      "type": "json",
+      "typeOf": "json",
+      "config": {
+        "row": "5"
+      }
+    },
+    {
+      "id": "description",
+      "description": "描述",
+      "type": "input",
+      "config": {}
+    },
+    {
+      "id": "status",
+      "method": "",
+      "authority": "",
+      "parameters": "",
+      "action": "",
+      "description": "状态(0开发1使用2禁用)",
+      "type": "select",
+      "config": [
+        "0",
+        "1",
+        "2"
+      ]
+    },
+    {
+      "id": "output",
+      "method": "",
+      "authority": "",
+      "parameters": "",
+      "action": "",
+      "description": "输出参数",
+      "type": "json",
+      "config": {
+        "row": 4
+      }
+    },
+    {
+      "id": "tags",
+      "description": "类型",
+      "type": "select",
+      "config": [
+        "内容",
+        "试卷",
+        "数据统计",
+        "用户",
+        "权限",
+        "系统",
+        "首页",
+        "通用接口"
+      ],
+      "updatedAt": "2018-11-22 17:19:22"
+    },
+    {
+      "id": "username",
+      "method": "",
+      "authority": "",
+      "description": "用户名",
+      "parameters": "",
+      "__fromElement": "",
+      "status": "",
+      "type": "input",
+      "config": {},
+      "createdAt": "2018-07-01 07:59:58",
+      "updatedAt": "2018-07-01 07:59:58"
+    },
+    {
+      "id": "service",
+      "description": "区分管理端/PC/手机网站",
+      "type": "select",
+      "config": [
+        "phone",
+        "pc",
+        "admin",
+        "file",
+        "template"
+      ],
+      "createdAt": "2018-07-02 03:14:37",
+      "updatedAt": "2018-07-06 08:13:19"
+    },
+    {
+      "id": "path",
+      "authority": "",
+      "parameters": "",
+      "status": "",
+      "output": "",
+      "name": "",
+      "description": "路由路径",
+      "createdAt": "2018-10-11 14:31:52",
+      "updatedAt": "2018-10-11 14:33:41",
+      "__visopexecute": "",
+      "value": "",
+      "__visoproute": "",
+      "type": "input",
+      "config": {}
+    },
+    {
+      "id": "creator",
+      "method": "",
+      "authority": "",
+      "parameters": "",
+      "status": "",
+      "output": "",
+      "tags": "",
+      "description": "创建者",
+      "type": "input",
+      "config": {},
+      "createdAt": "2018-11-22 09:53:23",
+      "updatedAt": "2018-11-26 15:08:44",
+      "show": "是"
+    },
+    {
+      "id": "templateRouter",
+      "route": "",
+      "description": "模板路由",
+      "type": "select",
+      "config": {
+        "0": "route-list",
+        "1": "route-detail"
+      },
+      "updatedAt": "2018-11-26 16:03:57",
+      "method": "",
+      "authority": "",
+      "parameters": "",
+      "status": "",
+      "output": "",
+      "tags": "",
+      "service": "",
+      "username": "",
+      "createdAt": "2018-11-26 16:03:57",
+      "path": "",
+      "show": "是"
+    }
+  ],
+  "data": [
+    {
+      "id": "uploadImage",
+      "route": "iresservice/upload",
+      "description": "上传图片",
+      "type": "",
+      "config": "",
+      "updatedAt": "2018-11-27 13:38:13",
+      "method": "POST",
+      "authority": 1,
+      "parameters": {},
+      "status": 1,
+      "output": {},
+      "tags": "首页",
+      "service": "pc",
+      "username": "dong",
+      "createdAt": "2018-08-27 16:11:41",
+      "path": "iresservice/upload",
+      "templateRouter": "route-detail"
+    }
+  ]
+}

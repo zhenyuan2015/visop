@@ -40,7 +40,7 @@ export function getAllRoutes(url,data,page,limit) {
     url: '/'+url+'/' + data + '?_page='+page+'&_limit='+limit+'',
     method: 'get',
   }).then(res => {
-    console.log(res.data,'getAll')
+    // console.log(res.data,'getAll')
     for(let i=0;i<res.data.length;i++){
       for( let s in res.data[i]){
         if(typeof res.data[i][s] !='string'){
@@ -82,7 +82,7 @@ export function serachRoute(url,data) {
     url: url + '?q=' + data,
     method: 'get',
   }).then(res => {
-    console.log(res.data,'getAll')
+    // console.log(res.data,'getAll')
     for(let i=0;i<res.data.length;i++){
       for( let s in res.data[i]){
         if(typeof res.data[i][s] !='string'){

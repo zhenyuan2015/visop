@@ -73,7 +73,7 @@ var addElement= function(config){
   console.log('Step 1 -- 生成controller和service文件');
 
   //2 创建controller文件和service文件
-  var sourceFile = path.join(CURRENT_PATH, config.id, 'controller.js');
+  var sourceFile = path.join(CURRENT_PATH, 'templates', 'default', 'controller.js');
   var targetFile = path.join(BASE_PATH, 'api', config.id+'.js');
   var targetPath = path.dirname(targetFile); 
   // shellCmd = 'mkdir -p '+ targetPath +' && cp -f '+sourceFile+' '+targetFile;
@@ -87,7 +87,7 @@ var addElement= function(config){
  
   nodereplace(targetFile,'\\[validate\\]',validateConfig);
   
-  sourceFile = path.join(CURRENT_PATH, config.id, 'service.js');
+  sourceFile = path.join(CURRENT_PATH, 'templates', 'default', 'service.js');
   targetFile =  path.join(BASE_PATH, 'service', config.id+'.js');
   targetPath = path.dirname(targetFile);
   fs.ensureDirSync(targetPath);

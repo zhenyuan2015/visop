@@ -2,13 +2,13 @@
   "meta": [
     {
       "id": "id",
-      "value": "/application-manage",
+      "value": "admin",
       "description": "在页面显示的名称",
       "type": "input"
     },
     {
       "id": "name",
-      "value": "项目",
+      "value": "路由管理",
       "description": "在页面显示的名称",
       "type": "input"
     },
@@ -41,12 +41,11 @@
     {
       "id": "name",
       "description": "名称",
-      "type": "input",
+      "type": "select",
       "config": {
         "0": "GET",
         "1": "POST"
-      },
-      "value": "项目"
+      }
     },
     {
       "id": "description",
@@ -60,6 +59,16 @@
       "id": "elements",
       "name": "数据管理",
       "description": "管理"
+    },
+    {
+      "id": "login",
+      "name": "登录管理",
+      "description": ""
+    },
+    {
+      "id": "actions",
+      "name": "动作列表",
+      "description": "执行各种系统命令或nodejs脚本"
     }
   ]
 }

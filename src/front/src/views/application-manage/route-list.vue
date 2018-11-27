@@ -13,13 +13,14 @@
     <el-table :key='tableKey' :data="list.data" v-loading="listLoading" element-loading-text="给我一点时间" border fit highlight-current-row
       style="width: 100%">
       <el-table-column
-      v-for="(items,index) in list.header" 
-      :key="index"
-      :label=items.description
-      sortable
-      :show-overflow-tooltip="true"
-      :formatter = "formatter"
-      align="center">
+        v-for="(items,index) in list.header" 
+        :key="index"
+        :label=items.description
+        sortable
+        :show-overflow-tooltip="true"
+        :formatter = "formatter"
+        align="center"
+        v-if="!items.show||items.show=='是'">
         <template slot-scope="scope">
           <span v-if="indexOfData(scope.row[items.id])">{{scope.row[items.id]}}</span>
           <a v-else target="_blank" :href="scope.row[items.id]">{{scope.row[items.id]}}</a>
@@ -245,6 +246,15 @@ export default {
           }
         },
         {
+          "id": "show",
+          "description": "是否显示此列",
+          "type": "select",
+          "config": {
+            "0":"是",
+            "1": "否",
+          }
+        },
+        {
           "id": "config",
           "description": "参数",
           "type":"textarea",
@@ -336,11 +346,11 @@ export default {
                   type: 'success'
                 })
                 row.status = status
-                if(this.routes=='index'){
+                // if(this.routes=='index'){
                   location.reload()
-                }else{
-                  this.ifFunction(this.tabName)
-                }
+                // }else{
+                //   this.ifFunction(this.tabName)
+                // }
               })
             }).catch(() => {
                 // console.log('已取消删除操作。')
@@ -399,11 +409,11 @@ export default {
               duration: 2000
             })
             this.dialogFormVisible = false
-            if(this.routes=='index'){
+            // if(this.routes=='index'){
               location.reload()
-            }else{
-              this.ifFunction(this.tabName)
-            }
+            // }else{
+            //   this.ifFunction(this.tabName)
+            // }
           })
         }
       })
@@ -472,11 +482,11 @@ export default {
                 duration: 2000
               })
               this.dialogFormVisible = false
-              if(this.routes=='index'){
+              // if(this.routes=='index'){
                 location.reload()
-              }else{
-                this.ifFunction(this.tabName)
-              }
+              // }else{
+              //   this.ifFunction(this.tabName)
+              // }
             })
           }else{
             // if(this.tabName=='0'){
@@ -518,11 +528,11 @@ export default {
                 duration: 2000
               })
               this.dialogFormVisible = false
-              if(this.routes=='index'){
+              // if(this.routes=='index'){
                 location.reload()
-              }else{
-                this.ifFunction(this.tabName)
-              }
+              // }else{
+              //   this.ifFunction(this.tabName)
+              // }
 
             })
           }

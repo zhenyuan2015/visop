@@ -1,6 +1,6 @@
 <template>
   <div class="menu-wrapper">
-    <template v-for="item in routes" v-if="!item.hidden&&item.children">
+    <!-- <template v-for="item in routes" v-if="!item.hidden&&item.children">
 
       <router-link v-if="hasOneShowingChildren(item.children) && !item.children[0].children&&!item.alwaysShow" :to="item.path+'/'+item.children[0].path"
         :key="item.children[0].name">
@@ -28,6 +28,33 @@
         </template>
       </el-submenu>
 
+    </template> -->
+    <template v-for="(item,zindex) in routes" v-if="!item.hidden">
+      <router-link v-for="items in item.children" :to="item.path + '/' +items.path+'?id='+items.path" :key="items.name" v-if="!items.meta.showMenu">
+        <el-menu-item :index="zindex.toString()" :class="{'submenu-title-noDropdown':!isNest}">
+          <svg-icon v-if="items.meta&&items.meta.icon" :icon-class="items.meta.icon"></svg-icon>
+          <span v-if="items.meta&&items.meta.title" slot="title">{{generateTitle(items.meta.title)}}</span>
+        </el-menu-item>
+      </router-link>
+
+      <el-submenu :index="zindex.toString()" v-else-if="items.meta.showMenu" :key="item.meta.name">
+        <template slot="title">
+          <svg-icon v-if="items.meta&&items.meta.icon" :icon-class="items.meta.icon"></svg-icon>
+          <span>{{items.meta.title}}</span>
+        </template>
+          <!-- <router-link :to="item.path + '/' +items.path+'?id='+items.path" :key="items.name">
+            <el-menu-item :index="zindex.toString()">
+              <svg-icon v-if="items.meta&&items.meta.icon" :icon-class="items.meta.icon"></svg-icon>
+              <span v-if="items.meta&&items.meta.title" slot="title">{{generateTitle(items.meta.title)}}</span>
+            </el-menu-item>
+          </router-link> -->
+          <router-link v-for="(items1) in items.children" :to="item.path + '/' +items.path + '/' +items1.path+'?id='+items.path" :key="items1.name">
+            <el-menu-item :index="zindex.toString()">
+              <svg-icon v-if="items1.meta&&items1.meta.icon" :icon-class="items1.meta.icon"></svg-icon>
+              <span v-if="items1.meta.title" slot="title">{{items1.meta.title}}</span>
+            </el-menu-item>
+          </router-link>
+      </el-submenu>
     </template>
   </div>
 </template>
@@ -46,10 +73,14 @@ export default {
       default: false
     }
   },
+  mounted () {
+    console.log('routes',this.routes)
+  },
   methods: {
     hasOneShowingChildren(children) {
+      console.log(children,'children')
       const showingChildren = children.filter(item => {
-        return !item.hidden
+        return item.hidden
       })
       if (showingChildren.length === 1) {
         return true

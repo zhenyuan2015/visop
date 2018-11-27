@@ -146,6 +146,16 @@
           "errorMessage": "config不能为空"
         }
       }
+    },
+    {
+      "id": "testdev",
+      "description": "测试接口",
+      "type": "",
+      "config": "",
+      "method": "GET",
+      "authority": "1000001",
+      "parameters": {},
+      "action": "do"
     }
   ]
 }
