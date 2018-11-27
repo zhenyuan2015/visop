@@ -1,6 +1,6 @@
 {
   "name": "visop",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A simple CLI for scaffolding visible operation projects.",
   "preferGlobal": true,
   "bin": {
