@@ -99,6 +99,16 @@ const permission = {
               if(getShowMenu(res2.data, 'showMenu')){
                 obj.component = _import('application-manage/route-view')
                 if(res3&&res3.data.length>0){
+                  child = {
+                    path: res1.data[i].id, 
+                    component: _import('application-manage/' + res1.data[i].templateRouter||'route-list'), 
+                    name: res1.data[i].id,
+                    meta: { 
+                      title: res1.data[i].description, 
+                      icon: 'table',
+                    },
+                  }
+                  children.push(child)
                   for(let i = 0;i<res3.data.length;i++){
                     child = {
                       path: res3.data[i].id, 
