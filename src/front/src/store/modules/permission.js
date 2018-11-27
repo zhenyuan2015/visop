@@ -101,9 +101,10 @@ const permission = {
                 res3 = await getAllRoutes(res1.data[i].id,'data') //如果showMenu是true  遍历相应子路由的data内容注册到子路由
                 if(res3&&res3.data.length>0){
                   for(let i = 0;i<res3.data.length;i++){
+                    console.log(res3.data[i].templateRouter,'template')
                     child = {
                       path: res3.data[i].id, 
-                      component: _import('application-manage/' + res3.data[i].templateRouter||'route-list'), 
+                      component: _import('application-manage/' + res3.data[i].templateRouter), 
                       name: res3.data[i].id,
                       meta: { 
                         title: res3.data[i].description, 
