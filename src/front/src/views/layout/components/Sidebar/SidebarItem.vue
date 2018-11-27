@@ -48,7 +48,7 @@
               <span v-if="items.meta&&items.meta.title" slot="title">{{generateTitle(items.meta.title)}}</span>
             </el-menu-item>
           </router-link> -->
-          <router-link v-for="(items1) in items.children" :to="items.path + '/' +items1.path+'?id='+items1.path" :key="items1.name">
+          <router-link v-for="(items1) in items.children" :to="item.path + '/' +items.path + '/' +items1.path+'?id='+items1.path" :key="items1.name">
             <el-menu-item :index="items1.path+'/'+items1.path">
               <svg-icon v-if="items1.meta&&items1.meta.icon" :icon-class="items1.meta.icon"></svg-icon>
               <span v-if="items1.meta.title" slot="title">{{items1.meta.title}}</span>
