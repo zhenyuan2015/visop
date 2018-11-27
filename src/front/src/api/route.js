@@ -37,7 +37,7 @@ export function generateRoute() {
 // 获取路由
 export function getAllRoutes(url,data,page,limit) {
   return request({
-    url: '/'+url+'/' + data + '?_page='+page+'&_limit='+limit+'',
+    url: '/'+url+'/' + data + '?_page='+page+'&_limit='+(limit||'500')+'',
     method: 'get',
   }).then(res => {
     // console.log(res.data,'getAll')
